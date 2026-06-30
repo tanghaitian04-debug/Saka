@@ -20,12 +20,12 @@ body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,B
 <div id="viewer" class="viewer" onclick="closeViewer()"><button class="close">×</button><img id="viewerImg" src="" alt="预览"></div>
 <script>
 const base='https://raw.githubusercontent.com/tanghaitian04-debug/Saka/main/';
-const ver='v=20260701-map4';
+const ver='v=20260701-map5';
 const maps=[
-  {title:'设备图 1',file:'device-map-1.jpg.jpg'},
-  {title:'设备图 2',file:'device-map-2.jpg.jpg'},
-  {title:'设备图 3',file:'device-map-3.jpg.jpg'},
-  {title:'设备图 4',file:'device-map-4.jpg.jpg'}
+  {title:'激光点位图',file:'device-map-1.jpg.jpg'},
+  {title:'城堡特效图',file:'device-map-2.jpg.jpg'},
+  {title:'花园特效图',file:'device-map-3.jpg.jpg'},
+  {title:'花园烟机',file:'device-map-4.jpg.jpg'}
 ];
 const gallery=document.getElementById('gallery');
 gallery.innerHTML=maps.map((m,i)=>{const src=base+encodeURIComponent(m.file)+'?'+ver;return `<div class="card"><div class="card-title"><span>${m.title}</span><span class="tag">${i+1}/4</span></div><div class="img-wrap"><img src="${src}" alt="${m.title}" onclick="openViewer(this.src)" onerror="this.style.display='none';this.nextElementSibling.style.display='block'"><div class="error">图片加载失败<br>${m.file}</div></div><div class="tools"><button class="btn" onclick="openViewer('${src}')">全屏查看</button></div><div class="hint">点击图片或按钮可以全屏查看。</div></div>`}).join('');
