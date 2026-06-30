@@ -6,33 +6,25 @@
 <title>设备图浏览</title>
 <style>
 :root{--bg:#f2f2f7;--card:#fff;--text:#1c1c1e;--sub:#8e8e93;--blue:#007aff;--line:rgba(60,60,67,.14)}
-*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","SF Pro Display","Segoe UI",sans-serif;padding-bottom:70px}.top{position:sticky;top:0;background:rgba(242,242,247,.9);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);z-index:10;padding:12px;display:flex;align-items:center;gap:10px;border-bottom:1px solid var(--line)}.back{border:none;background:#e5e5ea;color:var(--text);border-radius:12px;padding:10px 12px;font-weight:800}.title{font-size:20px;font-weight:900}.gallery{padding:12px;display:grid;grid-template-columns:1fr;gap:14px;max-width:980px;margin:0 auto}.card{background:var(--card);border:1px solid var(--line);border-radius:20px;overflow:hidden;box-shadow:0 1px 2px rgba(0,0,0,.04)}.card-title{padding:14px 14px 8px;font-weight:900;color:var(--text);font-size:17px}.img-wrap{background:#f7f7f8;min-height:240px;display:flex;align-items:center;justify-content:center;border-top:1px solid var(--line);border-bottom:1px solid var(--line);overflow:auto}.img-wrap img{width:100%;height:auto;display:block}.empty{padding:28px 16px;text-align:center;color:var(--sub);line-height:1.7;font-size:14px}.tools{padding:12px;display:flex;gap:10px;flex-wrap:wrap}.btn{border:none;border-radius:14px;padding:12px 14px;font-weight:900;font-size:15px}.primary{background:var(--blue);color:#fff}.gray{background:#e5e5ea;color:#1c1c1e}.hint{padding:0 12px 14px;color:var(--sub);font-size:13px;line-height:1.6}.viewer{position:fixed;inset:0;background:rgba(0,0,0,.94);display:none;z-index:99;align-items:center;justify-content:center;padding:12px;overflow:auto}.viewer img{max-width:100%;height:auto}.viewer.show{display:flex}.close{position:fixed;right:14px;top:14px;background:#fff;color:#111827;border:none;border-radius:999px;width:38px;height:38px;font-size:22px;font-weight:900}input[type=file]{display:none}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","SF Pro Display","Segoe UI",sans-serif;padding-bottom:24px}.top{position:sticky;top:0;background:rgba(242,242,247,.92);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);z-index:10;padding:12px;display:flex;align-items:center;gap:10px;border-bottom:1px solid var(--line)}.back{border:none;background:#e5e5ea;color:var(--text);border-radius:12px;padding:10px 12px;font-weight:800}.title{font-size:20px;font-weight:900}.gallery{padding:12px;display:grid;grid-template-columns:1fr;gap:14px;max-width:980px;margin:0 auto}.card{background:var(--card);border:1px solid var(--line);border-radius:20px;overflow:hidden;box-shadow:0 1px 2px rgba(0,0,0,.04)}.card-title{padding:14px;font-weight:900;color:var(--text);font-size:17px;display:flex;align-items:center;justify-content:space-between}.tag{font-size:12px;color:var(--sub);font-weight:700}.img-wrap{background:#f7f7f8;display:flex;align-items:center;justify-content:center;border-top:1px solid var(--line);overflow:auto}.img-wrap img{width:100%;height:auto;display:block;cursor:zoom-in}.tools{padding:12px}.btn{border:none;border-radius:14px;padding:12px 14px;font-weight:900;font-size:15px;background:var(--blue);color:#fff;width:100%}.hint{padding:0 12px 14px;color:var(--sub);font-size:13px;line-height:1.6}.viewer{position:fixed;inset:0;background:rgba(0,0,0,.94);display:none;z-index:99;align-items:center;justify-content:center;padding:12px;overflow:auto}.viewer img{max-width:100%;height:auto}.viewer.show{display:flex}.close{position:fixed;right:14px;top:14px;background:#fff;color:#111827;border:none;border-radius:999px;width:38px;height:38px;font-size:22px;font-weight:900}
+@media(min-width:760px){.gallery{grid-template-columns:1fr 1fr}}
 </style>
 </head>
 <body>
 <div class="top"><button class="back" onclick="location.href='index.html'">← 返回</button><div class="title">设备图浏览</div></div>
-<div class="gallery">
-  <div class="card">
-    <div class="card-title">设备图 1</div>
-    <div class="img-wrap">
-      <img id="devicePic" src="assets/device-map-1.jpg" onclick="openViewer(this.src)" alt="设备图 1">
-      <div id="emptyBox" class="empty" style="display:none;">还没有找到设备图文件。<br>请在 GitHub 仓库上传图片到：<br><b>assets/device-map-1.jpg</b></div>
-    </div>
-    <div class="tools">
-      <button class="btn primary" onclick="openViewer(document.getElementById('devicePic').src)">全屏查看</button>
-      <button class="btn gray" onclick="document.getElementById('fileInput').click()">本机临时预览</button>
-      <input id="fileInput" type="file" accept="image/*" onchange="previewLocal(event)">
-    </div>
-    <div class="hint">正式设备图会从 GitHub 仓库读取。电脑上传图片后，所有手机和电脑打开这个页面都能看到；“本机临时预览”只保存在当前浏览器里。</div>
-  </div>
-</div>
+<div class="gallery" id="gallery"></div>
 <div id="viewer" class="viewer" onclick="closeViewer()"><button class="close">×</button><img id="viewerImg" src="" alt="预览"></div>
 <script>
-const img=document.getElementById('devicePic');
-const empty=document.getElementById('emptyBox');
-img.onerror=function(){img.style.display='none';empty.style.display='block'};
-function previewLocal(e){const file=e.target.files[0];if(!file)return;const reader=new FileReader();reader.onload=function(){img.src=reader.result;img.style.display='block';empty.style.display='none'};reader.readAsDataURL(file)}
-function openViewer(src){if(!src||img.style.display==='none')return;document.getElementById('viewerImg').src=src;document.getElementById('viewer').classList.add('show')}
+const maps=[
+  {title:'设备图 1',src:'device-map-1.jpg.jpg'},
+  {title:'设备图 2',src:'device-map-2.jpg.jpg'},
+  {title:'设备图 3',src:'device-map-3.jpg.jpg'},
+  {title:'设备图 4',src:'device-map-4.jpg.jpg'}
+];
+const gallery=document.getElementById('gallery');
+gallery.innerHTML=maps.map((m,i)=>`<div class="card"><div class="card-title"><span>${m.title}</span><span class="tag">${i+1}/4</span></div><div class="img-wrap"><img src="${m.src}" alt="${m.title}" onclick="openViewer(this.src)"></div><div class="tools"><button class="btn" onclick="openViewer('${m.src}')">全屏查看</button></div><div class="hint">点击图片或按钮可以全屏查看。</div></div>`).join('');
+function openViewer(src){document.getElementById('viewerImg').src=src;document.getElementById('viewer').classList.add('show')}
 function closeViewer(){document.getElementById('viewer').classList.remove('show')}
 </script>
 </body>
