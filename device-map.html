@@ -3,27 +3,32 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
 <title>设备图浏览</title>
 <style>
 :root{--bg:#f2f2f7;--card:#fff;--text:#1c1c1e;--sub:#8e8e93;--blue:#007aff;--line:rgba(60,60,67,.14)}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","SF Pro Display","Segoe UI",sans-serif;padding-bottom:24px}.top{position:sticky;top:0;background:rgba(242,242,247,.92);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);z-index:10;padding:12px;display:flex;align-items:center;gap:10px;border-bottom:1px solid var(--line)}.back{border:none;background:#e5e5ea;color:var(--text);border-radius:12px;padding:10px 12px;font-weight:800}.title{font-size:20px;font-weight:900}.gallery{padding:12px;display:grid;grid-template-columns:1fr;gap:14px;max-width:980px;margin:0 auto}.card{background:var(--card);border:1px solid var(--line);border-radius:20px;overflow:hidden;box-shadow:0 1px 2px rgba(0,0,0,.04)}.card-title{padding:14px;font-weight:900;color:var(--text);font-size:17px;display:flex;align-items:center;justify-content:space-between}.tag{font-size:12px;color:var(--sub);font-weight:700}.img-wrap{background:#f7f7f8;display:flex;align-items:center;justify-content:center;border-top:1px solid var(--line);overflow:auto}.img-wrap img{width:100%;height:auto;display:block;cursor:zoom-in}.tools{padding:12px}.btn{border:none;border-radius:14px;padding:12px 14px;font-weight:900;font-size:15px;background:var(--blue);color:#fff;width:100%}.hint{padding:0 12px 14px;color:var(--sub);font-size:13px;line-height:1.6}.viewer{position:fixed;inset:0;background:rgba(0,0,0,.94);display:none;z-index:99;align-items:center;justify-content:center;padding:12px;overflow:auto}.viewer img{max-width:100%;height:auto}.viewer.show{display:flex}.close{position:fixed;right:14px;top:14px;background:#fff;color:#111827;border:none;border-radius:999px;width:38px;height:38px;font-size:22px;font-weight:900}
+body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","SF Pro Display","Segoe UI",sans-serif;padding-bottom:24px}.top{position:sticky;top:0;background:rgba(242,242,247,.92);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);z-index:10;padding:12px;display:flex;align-items:center;gap:10px;border-bottom:1px solid var(--line)}.back{border:none;background:#e5e5ea;color:var(--text);border-radius:12px;padding:10px 12px;font-weight:800}.title{font-size:20px;font-weight:900}.gallery{padding:12px;display:grid;grid-template-columns:1fr;gap:14px;max-width:980px;margin:0 auto}.card{background:var(--card);border:1px solid var(--line);border-radius:20px;overflow:hidden;box-shadow:0 1px 2px rgba(0,0,0,.04)}.card-title{padding:14px;font-weight:900;color:var(--text);font-size:17px;display:flex;align-items:center;justify-content:space-between}.tag{font-size:12px;color:var(--sub);font-weight:700}.img-wrap{background:#f7f7f8;display:flex;align-items:center;justify-content:center;border-top:1px solid var(--line);overflow:auto;min-height:180px}.img-wrap img{width:100%;height:auto;display:block;cursor:zoom-in}.error{display:none;color:#ff3b30;padding:24px;text-align:center;line-height:1.7}.tools{padding:12px}.btn{border:none;border-radius:14px;padding:12px 14px;font-weight:900;font-size:15px;background:var(--blue);color:#fff;width:100%}.hint{padding:0 12px 14px;color:var(--sub);font-size:13px;line-height:1.6}.viewer{position:fixed;inset:0;background:rgba(0,0,0,.94);display:none;z-index:99;align-items:center;justify-content:center;padding:12px;overflow:auto}.viewer img{max-width:100%;height:auto}.viewer.show{display:flex}.close{position:fixed;right:14px;top:14px;background:#fff;color:#111827;border:none;border-radius:999px;width:38px;height:38px;font-size:22px;font-weight:900}
 @media(min-width:760px){.gallery{grid-template-columns:1fr 1fr}}
 </style>
 </head>
 <body>
-<div class="top"><button class="back" onclick="location.href='index.html'">← 返回</button><div class="title">设备图浏览</div></div>
+<div class="top"><button class="back" onclick="location.href='index.html?v=map4'">← 返回</button><div class="title">设备图浏览</div></div>
 <div class="gallery" id="gallery"></div>
 <div id="viewer" class="viewer" onclick="closeViewer()"><button class="close">×</button><img id="viewerImg" src="" alt="预览"></div>
 <script>
+const base='https://raw.githubusercontent.com/tanghaitian04-debug/Saka/main/';
+const ver='v=20260701-map4';
 const maps=[
-  {title:'设备图 1',src:'device-map-1.jpg.jpg'},
-  {title:'设备图 2',src:'device-map-2.jpg.jpg'},
-  {title:'设备图 3',src:'device-map-3.jpg.jpg'},
-  {title:'设备图 4',src:'device-map-4.jpg.jpg'}
+  {title:'设备图 1',file:'device-map-1.jpg.jpg'},
+  {title:'设备图 2',file:'device-map-2.jpg.jpg'},
+  {title:'设备图 3',file:'device-map-3.jpg.jpg'},
+  {title:'设备图 4',file:'device-map-4.jpg.jpg'}
 ];
 const gallery=document.getElementById('gallery');
-gallery.innerHTML=maps.map((m,i)=>`<div class="card"><div class="card-title"><span>${m.title}</span><span class="tag">${i+1}/4</span></div><div class="img-wrap"><img src="${m.src}" alt="${m.title}" onclick="openViewer(this.src)"></div><div class="tools"><button class="btn" onclick="openViewer('${m.src}')">全屏查看</button></div><div class="hint">点击图片或按钮可以全屏查看。</div></div>`).join('');
+gallery.innerHTML=maps.map((m,i)=>{const src=base+encodeURIComponent(m.file)+'?'+ver;return `<div class="card"><div class="card-title"><span>${m.title}</span><span class="tag">${i+1}/4</span></div><div class="img-wrap"><img src="${src}" alt="${m.title}" onclick="openViewer(this.src)" onerror="this.style.display='none';this.nextElementSibling.style.display='block'"><div class="error">图片加载失败<br>${m.file}</div></div><div class="tools"><button class="btn" onclick="openViewer('${src}')">全屏查看</button></div><div class="hint">点击图片或按钮可以全屏查看。</div></div>`}).join('');
 function openViewer(src){document.getElementById('viewerImg').src=src;document.getElementById('viewer').classList.add('show')}
 function closeViewer(){document.getElementById('viewer').classList.remove('show')}
 </script>
