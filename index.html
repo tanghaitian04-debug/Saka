@@ -3,49 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>舞台排班 Pro - 食堂抽奖版</title>
+    <title>舞台排班 Pro</title>
     <style>
-        :root { --primary: #2563eb; --accent: #7c3aed; --bg: #f1f5f9; --canteen: #f59e0b; }
-        body { font-family: -apple-system, sans-serif; background: var(--bg); padding: 10px; margin: 0; padding-bottom: 80px; }
-        .top-section { background: white; padding: 12px; border-radius: 12px; border: 1px solid var(--accent); margin-bottom: 15px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
-        .date-row { display: flex; align-items: center; gap: 8px; margin-bottom: 25px; flex-wrap: wrap; }
-        .date-row label { font-size: 14px; font-weight: bold; color: #475569; }
-        .date-picker { flex: 1; padding: 8px; border: 1px solid #ddd; border-radius: 6px; font-size: 14px; min-width: 120px; }
-        .canteen-wrapper { position: relative; display: inline-block; }
-        .btn-canteen { background: var(--canteen); color: white; border: none; padding: 8px 12px; border-radius: 6px; font-weight: bold; font-size: 13px; cursor: pointer; }
-        .btn-device { background: #0f172a; color: white; border: none; padding: 8px 12px; border-radius: 6px; font-weight: bold; font-size: 13px; cursor: pointer; }
-        .canteen-hint { position: absolute; top: 100%; left: 50%; transform: translateX(-50%); white-space: nowrap; font-size: 11px; color: #f59e0b; margin-top: 4px; font-weight: normal; animation: hintBounce 2s infinite; }
-        @keyframes hintBounce { 0%, 100% { transform: translateX(-50%) translateY(0); opacity: 0.7; } 50% { transform: translateX(-50%) translateY(-3px); opacity: 1; } }
-        textarea#aiInput { width: 100%; height: 45px; border: 1px solid #ddd; border-radius: 6px; padding: 8px; box-sizing: border-box; font-size: 14px; }
-        .btn-ai { background: var(--accent); color: white; width: 100%; border: none; padding: 10px; margin-top: 8px; border-radius: 6px; font-weight: bold; }
-        .staff-grid { display: grid; grid-template-columns: 1fr; gap: 12px; }
-        @media (min-width: 600px) { .staff-grid { grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); } }
-        .card { background: white; padding: 15px; border-radius: 12px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); border: 1px solid #e2e8f0; }
-        .staff-name { font-weight: bold; color: var(--primary); font-size: 18px; margin-bottom: 12px; display: block; border-left: 5px solid var(--primary); padding-left: 10px; }
-        .role-group { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-        .role-opt { font-size: 14px; display: flex; align-items: center; padding: 6px 0; color: #334155; }
-        .role-opt input { width: 22px; height: 22px; margin-right: 8px; flex-shrink: 0; }
-        .extra-tools { margin-top: 10px; padding-top: 10px; border-top: 1px dashed #cbd5e1; display: flex; gap: 20px; font-size: 14px; color: #1e293b; font-weight: bold; }
-        .bottom-bar { position: fixed; bottom: 0; left: 0; right: 0; background: white; display: flex; padding: 12px 15px; gap: 12px; box-shadow: 0 -2px 20px rgba(0,0,0,0.15); z-index: 100; }
-        .btn { flex: 1; padding: 14px; border-radius: 10px; border: none; font-weight: bold; color: white; font-size: 16px; }
-        .btn-gen { background: var(--primary); }
-        .btn-copy { background: #475569; }
-        .result-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.7); display: none; z-index: 200; align-items: flex-end; }
-        .result-content { background: white; width: 100%; border-radius: 20px 20px 0 0; padding: 20px; box-sizing: border-box; }
-        #resultText { width: 100%; height: 280px; margin: 15px 0; border-radius: 8px; border: 1px solid #cbd5e1; padding: 12px; font-size: 14px; background: #f8fafc; box-sizing: border-box; }
-        .close-btn { background: #f1f5f9; color: #475569; margin-top: 8px; }
+        :root{--blue:#5856d6;--blue2:#0a84ff;--orange:#ff9f0a;--bg:#f5f5f7;--card:#ffffff;--text:#1d1d1f;--sub:#6e6e73;--line:rgba(60,60,67,.16);--shadow:0 10px 30px rgba(0,0,0,.06)}
+        *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+        body{font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","SF Pro Display","Segoe UI",sans-serif;background:var(--bg);padding:12px;margin:0;padding-bottom:94px;color:var(--text)}
+        .container{max-width:920px;margin:0 auto}.top-section{background:rgba(255,255,255,.88);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);padding:14px;border-radius:24px;border:1px solid rgba(255,255,255,.7);margin-bottom:16px;box-shadow:var(--shadow)}
+        .date-row{display:flex;align-items:center;gap:10px;margin-bottom:14px;flex-wrap:wrap}.date-row label{font-size:13px;font-weight:700;color:var(--sub)}.date-picker{flex:1;padding:11px 12px;border:1px solid var(--line);border-radius:14px;font-size:15px;min-width:130px;background:#f9f9fb;color:var(--text)}
+        .canteen-wrapper{position:relative;display:inline-block}.btn-canteen,.btn-device{color:white;border:none;padding:10px 12px;border-radius:14px;font-weight:800;font-size:13px;cursor:pointer;box-shadow:0 8px 18px rgba(0,0,0,.10)}.btn-canteen{background:linear-gradient(135deg,#ffb340,#ff7a00)}.btn-device{background:linear-gradient(135deg,#4f8cff,#5856d6)}
+        .canteen-hint{position:absolute;top:100%;left:50%;transform:translateX(-50%);white-space:nowrap;font-size:10px;color:var(--orange);margin-top:3px;font-weight:600;animation:hintBounce 2s infinite}@keyframes hintBounce{0%,100%{transform:translateX(-50%) translateY(0);opacity:.65}50%{transform:translateX(-50%) translateY(-3px);opacity:1}}
+        textarea#aiInput{width:100%;height:48px;border:1px solid var(--line);border-radius:16px;padding:12px;box-sizing:border-box;font-size:14px;background:#f9f9fb;outline:none;resize:none;color:var(--text)}textarea#aiInput:focus{border-color:rgba(88,86,214,.55);box-shadow:0 0 0 4px rgba(88,86,214,.08)}
+        .btn-ai{background:linear-gradient(135deg,#7b61ff,#5856d6);color:white;width:100%;border:none;padding:12px;margin-top:10px;border-radius:16px;font-weight:900;font-size:15px;box-shadow:0 10px 22px rgba(88,86,214,.22)}
+        .staff-grid{display:grid;grid-template-columns:1fr;gap:12px}@media(min-width:600px){.staff-grid{grid-template-columns:repeat(auto-fill,minmax(300px,1fr))}}
+        .card{background:rgba(255,255,255,.92);padding:14px;border-radius:22px;box-shadow:0 7px 22px rgba(0,0,0,.045);border:1px solid rgba(60,60,67,.12)}.staff-name{font-weight:900;color:var(--text);font-size:18px;margin-bottom:12px;display:flex;align-items:center;justify-content:space-between}.staff-name:after{content:"⌄";color:#b0b0b8;font-size:17px}
+        .role-group{display:grid;grid-template-columns:1fr 1fr;gap:8px}.role-opt{font-size:13px;display:flex;align-items:center;padding:8px 9px;color:#333;background:#f7f7f9;border-radius:12px;border:1px solid rgba(60,60,67,.08)}.role-opt input{width:20px;height:20px;margin-right:8px;flex-shrink:0;accent-color:var(--blue)}
+        .extra-tools{margin-top:10px;padding-top:10px;border-top:1px solid var(--line);display:flex;gap:10px;font-size:13px;color:#1e293b;font-weight:800;flex-wrap:wrap}.extra-tools label{background:#fff7ed;color:#9a5700;border:1px solid rgba(255,159,10,.22);border-radius:12px;padding:8px 10px}.extra-tools input{accent-color:var(--orange)}
+        .bottom-bar{position:fixed;bottom:0;left:0;right:0;background:rgba(255,255,255,.88);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);display:flex;padding:12px 15px calc(12px + env(safe-area-inset-bottom));gap:12px;box-shadow:0 -8px 28px rgba(0,0,0,.10);z-index:100;border-top:1px solid rgba(60,60,67,.12)}.btn{flex:1;padding:15px;border-radius:18px;border:none;font-weight:900;color:white;font-size:16px}.btn-gen{background:linear-gradient(135deg,#0a84ff,#5856d6)}.btn-copy{background:#2c2c2e}
+        .result-overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.36);display:none;z-index:200;align-items:flex-end;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}.result-content{background:#fff;width:100%;border-radius:28px 28px 0 0;padding:20px;box-sizing:border-box;box-shadow:0 -12px 40px rgba(0,0,0,.18)}#resultText{width:100%;height:300px;margin:15px 0;border-radius:18px;border:1px solid var(--line);padding:14px;font-size:14px;background:#f5f5f7;box-sizing:border-box;line-height:1.55}.close-btn{background:#f2f2f7!important;color:#3a3a3c!important;margin-top:8px}
     </style>
 </head>
 <body>
 <div class="container">
     <div class="top-section">
         <div class="date-row">
-            <label>日期：</label>
+            <label>日期</label>
             <input type="date" id="scheduleDate" class="date-picker">
-            <div class="canteen-wrapper">
-                <button class="btn-canteen" onclick="pickCanteen()">🍱 去哪吃？</button>
-                <span class="canteen-hint">点我抽奖</span>
-            </div>
+            <div class="canteen-wrapper"><button class="btn-canteen" onclick="pickCanteen()">🍱 食堂抽奖</button><span class="canteen-hint">点我抽奖</span></div>
             <button class="btn-device" onclick="location.href='device-map.html'">🗺️ 设备图</button>
         </div>
         <textarea id="aiInput" placeholder="在此粘贴 AI 识别出的文字..."></textarea>
@@ -53,85 +36,17 @@
     </div>
     <div id="staffGrid" class="staff-grid"></div>
 </div>
-<div class="bottom-bar">
-    <button class="btn btn-gen" onclick="generate()">✨ 生成预览</button>
-    <button class="btn btn-copy" onclick="quickCopy()">📋 直接复制</button>
-</div>
-<div id="overlay" class="result-overlay" onclick="closePopup(event)">
-    <div class="result-content" onclick="event.stopPropagation()">
-        <strong style="display:block; text-align:center; font-size:18px;">排班文案预览</strong>
-        <textarea id="resultText" readonly></textarea>
-        <button class="btn btn-gen" onclick="copyText()">复制文案</button>
-        <button class="btn close-btn" onclick="document.getElementById('overlay').style.display='none'">关闭</button>
-    </div>
-</div>
+<div class="bottom-bar"><button class="btn btn-gen" onclick="generate()">✨ 生成预览</button><button class="btn btn-copy" onclick="quickCopy()">📋 直接复制</button></div>
+<div id="overlay" class="result-overlay" onclick="closePopup(event)"><div class="result-content" onclick="event.stopPropagation()"><strong style="display:block;text-align:center;font-size:18px;">排班文案预览</strong><textarea id="resultText" readonly></textarea><button class="btn btn-gen" onclick="copyText()">复制文案</button><button class="btn close-btn" onclick="document.getElementById('overlay').style.display='none'">关闭</button></div></div>
 <script>
-    window.onload = function() {
-        const today = new Date().toISOString().split('T')[0];
-        document.getElementById('scheduleDate').value = today;
-    };
-    function pickCanteen() {
-        const canteens = ['PAB食堂', '团队大楼食堂', '明日世界食堂'];
-        const result = canteens[Math.floor(Math.random() * canteens.length)];
-        alert("✨ 走！今天去吃：\n\n👉 " + result + " 👈");
-    }
-    const staffNames = ['郑思瑜', '马强', '贺坤华', '刘庭旭', '邵成海', '钱佳恩', '闫国豪', '陈军', '刘伟伟', '张文芳', '唐海添', '聂国标', '李东绪', '赵国华', '罗光荣', '张禹', '陈财', '张云翔'];
-    const roleConfig = [
-        { display: '激光1', full: '激光操作员' },
-        { display: '观察A', full: '观察A' },
-        { display: '观察B', full: '观察B' },
-        { display: '控台', full: '控台操作员' },
-        { display: '视频', full: '视频操作员' },
-        { display: '激光3', full: '激光3' },
-        { display: '自动化', full: '自动化' },
-        { display: '台仓1', full: '台仓1' },
-        { display: '台仓2', full: '台仓2' },
-        { display: '特效', full: '特效观察' },
-        { display: '激光2', full: '激光观察员' }
-    ];
-    const grid = document.getElementById('staffGrid');
-    staffNames.forEach(name => {
-        let html = `<div class="card"><span class="staff-name">${name}</span><div class="role-group">`;
-        roleConfig.forEach(r => { html += `<label class="role-opt"><input type="checkbox" class="role-ck" data-name="${name}" data-role-full="${r.full}"> ${r.display}</label>`; });
-        html += `</div><div class="extra-tools"><label><input type="checkbox" class="ins-ck" data-name="${name}"> 装大门板</label><label><input type="checkbox" class="rev-ck" data-name="${name}"> 收大门板</label></div></div>`;
-        grid.innerHTML += html;
-    });
-    function autoCheckByAI() {
-        const text = document.getElementById('aiInput').value;
-        if(!text) return;
-        document.querySelectorAll('.role-ck').forEach(c => c.checked = false);
-        roleConfig.forEach(r => {
-            let pattern = r.full;
-            if(r.display === '激光1') pattern = "(激光操作员|激光1|X激光|激光)";
-            if(r.display === '激光2') pattern = "(激光观察员|激光2)";
-            const reg = new RegExp(`${pattern}[：:]\\s*(\\S+?)(\\s|$)`, 'i');
-            const match = text.match(reg);
-            if(match) {
-                const name = match[match.length - 1] || match[1];
-                const target = document.querySelector(`.role-ck[data-name*="${name}"][data-role-full="${r.full}"]`);
-                if(target) target.checked = true;
-            }
-        });
-    }
-    function getNames(roleFullName) {
-        const checked = Array.from(document.querySelectorAll(`.role-ck[data-role-full="${roleFullName}"]:checked`));
-        return checked.map(c => {
-            let n = c.dataset.name;
-            const card = c.closest('.card');
-            const ins = card.querySelector('.ins-ck').checked;
-            const rev = card.querySelector('.rev-ck').checked;
-            if(ins && rev) n += "（装收大门板）";
-            else if(ins) n += "（装大门板）";
-            else if(rev) n += "（收大门板）";
-            return n;
-        }).join('、') || "[待定]";
-    }
-    function generate() {
-        const dateInput = document.getElementById('scheduleDate').value;
-        const d = new Date(dateInput);
-        const week = ['星期日', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六'];
-        const dateStr = `${d.getFullYear()}年 ${d.getMonth()+1}月${d.getDate()}日 ${week[d.getDay()]}`;
-        const template = `${dateStr}
+    window.onload=function(){const today=new Date().toISOString().split('T')[0];document.getElementById('scheduleDate').value=today};
+    function pickCanteen(){const canteens=['PAB食堂','团队大楼食堂','明日世界食堂'];const result=canteens[Math.floor(Math.random()*canteens.length)];alert("✨ 走！今天去吃：\n\n👉 "+result+" 👈")}
+    const staffNames=['郑思瑜','马强','贺坤华','刘庭旭','邵成海','钱佳恩','闫国豪','陈军','刘伟伟','张文芳','唐海添','聂国标','李东绪','赵国华','罗光荣','张禹','陈财','张云翔'];
+    const roleConfig=[{display:'激光1',full:'激光操作员'},{display:'观察A',full:'观察A'},{display:'观察B',full:'观察B'},{display:'控台',full:'控台操作员'},{display:'视频',full:'视频操作员'},{display:'激光3',full:'激光3'},{display:'自动化',full:'自动化'},{display:'台仓1',full:'台仓1'},{display:'台仓2',full:'台仓2'},{display:'特效',full:'特效观察'},{display:'激光2',full:'激光观察员'}];
+    const grid=document.getElementById('staffGrid');staffNames.forEach(name=>{let html=`<div class="card"><span class="staff-name">${name}</span><div class="role-group">`;roleConfig.forEach(r=>{html+=`<label class="role-opt"><input type="checkbox" class="role-ck" data-name="${name}" data-role-full="${r.full}"> ${r.display}</label>`});html+=`</div><div class="extra-tools"><label><input type="checkbox" class="ins-ck" data-name="${name}"> 装大门板</label><label><input type="checkbox" class="rev-ck" data-name="${name}"> 收大门板</label></div></div>`;grid.innerHTML+=html});
+    function autoCheckByAI(){const text=document.getElementById('aiInput').value;if(!text)return;document.querySelectorAll('.role-ck').forEach(c=>c.checked=false);roleConfig.forEach(r=>{let pattern=r.full;if(r.display==='激光1')pattern="(激光操作员|激光1|X激光|激光)";if(r.display==='激光2')pattern="(激光观察员|激光2)";const reg=new RegExp(`${pattern}[：:]\\s*(\\S+?)(\\s|$)`,'i');const match=text.match(reg);if(match){const name=match[match.length-1]||match[1];const target=document.querySelector(`.role-ck[data-name*="${name}"][data-role-full="${r.full}"]`);if(target)target.checked=true}})}
+    function getNames(roleFullName){const checked=Array.from(document.querySelectorAll(`.role-ck[data-role-full="${roleFullName}"]:checked`));return checked.map(c=>{let n=c.dataset.name;const card=c.closest('.card');const ins=card.querySelector('.ins-ck').checked;const rev=card.querySelector('.rev-ck').checked;if(ins&&rev)n+="（装收大门板）";else if(ins)n+="（装大门板）";else if(rev)n+="（收大门板）";return n}).join('、')||"[待定]"}
+    function generate(){const dateInput=document.getElementById('scheduleDate').value;const d=new Date(dateInput);const week=['星期日','星期一','星期二','星期三','星期四','星期五','星期六'];const dateStr=`${d.getFullYear()}年 ${d.getMonth()+1}月${d.getDate()}日 ${week[d.getDay()]}`;const template=`${dateStr}
 舞台技师工作安排：
 
 激光操作员: ${getNames('激光操作员')}
@@ -150,13 +65,8 @@
 特效观察: ${getNames('特效观察')}
 预设工作内容: 升降灯塔 水幕 C0106 窗帘 ，测试舞台机械以及LED屏幕升降状态，开关舞台投影机盖板 检查两侧灯塔LED电源状态  测试花园LED灯柱  演出中观察花园以及巡游大道喷花机 烟机特效状态 演出后测试LED升降设备状态
 
-激光观察员: ${getNames('激光观察员')}（带大钥匙柜102号万能钥匙、预设：后场480测试&升起、检查205、221屋顶投影机空调、投影机空调湿度，米奇大街屋顶检查上锁；演出结束：米奇大街屋顶解锁、降后场480平台）注意观察环境灯光以及show lighting状态  演出前后汇报花车大道LED状态`;
-        document.getElementById('resultText').value = template;
-        document.getElementById('overlay').style.display = 'flex';
-    }
-    function quickCopy() { generate(); copyText(); document.getElementById('overlay').style.display = 'none'; }
-    function copyText() { const t = document.getElementById('resultText'); t.select(); t.setSelectionRange(0, 99999); document.execCommand('copy'); alert("✅ 文案已复制！"); }
-    function closePopup(e) { if(e.target.id === 'overlay') e.target.style.display = 'none'; }
+激光观察员: ${getNames('激光观察员')}（带大钥匙柜102号万能钥匙、预设：后场480测试&升起、检查205、221屋顶投影机空调、投影机空调湿度，米奇大街屋顶检查上锁；演出结束：米奇大街屋顶解锁、降后场480平台）注意观察环境灯光以及show lighting状态  演出前后汇报花车大道LED状态`;document.getElementById('resultText').value=template;document.getElementById('overlay').style.display='flex'}
+    function quickCopy(){generate();copyText();document.getElementById('overlay').style.display='none'}function copyText(){const t=document.getElementById('resultText');t.select();t.setSelectionRange(0,99999);document.execCommand('copy');alert("✅ 文案已复制！")}function closePopup(e){if(e.target.id==='overlay')e.target.style.display='none'}
 </script>
 </body>
 </html>
