@@ -13,6 +13,7 @@
         .date-picker { flex: 1; padding: 8px; border: 1px solid #ddd; border-radius: 6px; font-size: 14px; min-width: 120px; }
         .canteen-wrapper { position: relative; display: inline-block; }
         .btn-canteen { background: var(--canteen); color: white; border: none; padding: 8px 12px; border-radius: 6px; font-weight: bold; font-size: 13px; cursor: pointer; }
+        .btn-device { background: #0f172a; color: white; border: none; padding: 8px 12px; border-radius: 6px; font-weight: bold; font-size: 13px; cursor: pointer; }
         .canteen-hint { position: absolute; top: 100%; left: 50%; transform: translateX(-50%); white-space: nowrap; font-size: 11px; color: #f59e0b; margin-top: 4px; font-weight: normal; animation: hintBounce 2s infinite; }
         @keyframes hintBounce { 0%, 100% { transform: translateX(-50%) translateY(0); opacity: 0.7; } 50% { transform: translateX(-50%) translateY(-3px); opacity: 1; } }
         textarea#aiInput { width: 100%; height: 45px; border: 1px solid #ddd; border-radius: 6px; padding: 8px; box-sizing: border-box; font-size: 14px; }
@@ -45,6 +46,7 @@
                 <button class="btn-canteen" onclick="pickCanteen()">🍱 去哪吃？</button>
                 <span class="canteen-hint">点我抽奖</span>
             </div>
+            <button class="btn-device" onclick="location.href='device-map.html'">🗺️ 设备图</button>
         </div>
         <textarea id="aiInput" placeholder="在此粘贴 AI 识别出的文字..."></textarea>
         <button class="btn-ai" onclick="autoCheckByAI()">🤖 智能识别并勾选人员</button>
