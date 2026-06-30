@@ -1,292 +1,160 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>五子棋小游戏</title>
-  <style>
-    * { box-sizing: border-box; }
-    body {
-      margin: 0;
-      min-height: 100vh;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Microsoft YaHei", sans-serif;
-      background: radial-gradient(circle at top, #f7d89d 0%, #c79045 40%, #3b2412 100%);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 24px;
-      color: #2c190b;
-    }
-    .app {
-      width: min(96vw, 760px);
-      background: rgba(255, 248, 230, .92);
-      border: 1px solid rgba(80, 45, 15, .18);
-      border-radius: 24px;
-      box-shadow: 0 22px 70px rgba(0,0,0,.28);
-      padding: 20px;
-    }
-    .top {
-      display: flex;
-      gap: 12px;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      margin-bottom: 16px;
-    }
-    h1 { margin: 0; font-size: 28px; letter-spacing: 1px; }
-    .status {
-      font-size: 17px;
-      font-weight: 700;
-      padding: 10px 14px;
-      background: #fff3d0;
-      border-radius: 999px;
-      border: 1px solid rgba(80, 45, 15, .16);
-    }
-    .toolbar {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-      margin-bottom: 16px;
-    }
-    button {
-      border: 0;
-      border-radius: 12px;
-      padding: 11px 16px;
-      cursor: pointer;
-      font-weight: 700;
-      color: white;
-      background: #6a3c16;
-      box-shadow: 0 4px 10px rgba(0,0,0,.18);
-    }
-    button:hover { transform: translateY(-1px); }
-    button.secondary { background: #9c672a; }
-    .board-wrap {
-      display: flex;
-      justify-content: center;
-      overflow: auto;
-      padding: 10px;
-      background: rgba(86, 45, 12, .18);
-      border-radius: 20px;
-    }
-    canvas {
-      width: min(88vw, 660px);
-      height: min(88vw, 660px);
-      max-width: 660px;
-      max-height: 660px;
-      background: #d9a65a;
-      border-radius: 16px;
-      box-shadow: inset 0 0 0 3px rgba(75, 37, 7, .38), 0 10px 30px rgba(0,0,0,.25);
-      touch-action: manipulation;
-    }
-    .tips {
-      margin-top: 14px;
-      line-height: 1.7;
-      font-size: 14px;
-      opacity: .85;
-    }
-    @media (max-width: 520px) {
-      body { padding: 10px; }
-      .app { padding: 14px; border-radius: 18px; }
-      h1 { font-size: 23px; }
-      .status { font-size: 15px; }
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>舞台排班 Pro - 食堂抽奖版</title>
+    <style>
+        :root { --primary: #2563eb; --accent: #7c3aed; --bg: #f1f5f9; --canteen: #f59e0b; }
+        body { font-family: -apple-system, sans-serif; background: var(--bg); padding: 10px; margin: 0; padding-bottom: 80px; }
+        .top-section { background: white; padding: 12px; border-radius: 12px; border: 1px solid var(--accent); margin-bottom: 15px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+        .date-row { display: flex; align-items: center; gap: 8px; margin-bottom: 25px; flex-wrap: wrap; }
+        .date-row label { font-size: 14px; font-weight: bold; color: #475569; }
+        .date-picker { flex: 1; padding: 8px; border: 1px solid #ddd; border-radius: 6px; font-size: 14px; min-width: 120px; }
+        .canteen-wrapper { position: relative; display: inline-block; }
+        .btn-canteen { background: var(--canteen); color: white; border: none; padding: 8px 12px; border-radius: 6px; font-weight: bold; font-size: 13px; cursor: pointer; }
+        .canteen-hint { position: absolute; top: 100%; left: 50%; transform: translateX(-50%); white-space: nowrap; font-size: 11px; color: #f59e0b; margin-top: 4px; font-weight: normal; animation: hintBounce 2s infinite; }
+        @keyframes hintBounce { 0%, 100% { transform: translateX(-50%) translateY(0); opacity: 0.7; } 50% { transform: translateX(-50%) translateY(-3px); opacity: 1; } }
+        textarea#aiInput { width: 100%; height: 45px; border: 1px solid #ddd; border-radius: 6px; padding: 8px; box-sizing: border-box; font-size: 14px; }
+        .btn-ai { background: var(--accent); color: white; width: 100%; border: none; padding: 10px; margin-top: 8px; border-radius: 6px; font-weight: bold; }
+        .staff-grid { display: grid; grid-template-columns: 1fr; gap: 12px; }
+        @media (min-width: 600px) { .staff-grid { grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); } }
+        .card { background: white; padding: 15px; border-radius: 12px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); border: 1px solid #e2e8f0; }
+        .staff-name { font-weight: bold; color: var(--primary); font-size: 18px; margin-bottom: 12px; display: block; border-left: 5px solid var(--primary); padding-left: 10px; }
+        .role-group { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+        .role-opt { font-size: 14px; display: flex; align-items: center; padding: 6px 0; color: #334155; }
+        .role-opt input { width: 22px; height: 22px; margin-right: 8px; flex-shrink: 0; }
+        .extra-tools { margin-top: 10px; padding-top: 10px; border-top: 1px dashed #cbd5e1; display: flex; gap: 20px; font-size: 14px; color: #1e293b; font-weight: bold; }
+        .bottom-bar { position: fixed; bottom: 0; left: 0; right: 0; background: white; display: flex; padding: 12px 15px; gap: 12px; box-shadow: 0 -2px 20px rgba(0,0,0,0.15); z-index: 100; }
+        .btn { flex: 1; padding: 14px; border-radius: 10px; border: none; font-weight: bold; color: white; font-size: 16px; }
+        .btn-gen { background: var(--primary); }
+        .btn-copy { background: #475569; }
+        .result-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.7); display: none; z-index: 200; align-items: flex-end; }
+        .result-content { background: white; width: 100%; border-radius: 20px 20px 0 0; padding: 20px; box-sizing: border-box; }
+        #resultText { width: 100%; height: 280px; margin: 15px 0; border-radius: 8px; border: 1px solid #cbd5e1; padding: 12px; font-size: 14px; background: #f8fafc; box-sizing: border-box; }
+        .close-btn { background: #f1f5f9; color: #475569; margin-top: 8px; }
+    </style>
 </head>
 <body>
-  <main class="app">
-    <div class="top">
-      <h1>五子棋</h1>
-      <div id="status" class="status">黑棋先手</div>
+<div class="container">
+    <div class="top-section">
+        <div class="date-row">
+            <label>日期：</label>
+            <input type="date" id="scheduleDate" class="date-picker">
+            <div class="canteen-wrapper">
+                <button class="btn-canteen" onclick="pickCanteen()">🍱 去哪吃？</button>
+                <span class="canteen-hint">点我抽奖</span>
+            </div>
+        </div>
+        <textarea id="aiInput" placeholder="在此粘贴 AI 识别出的文字..."></textarea>
+        <button class="btn-ai" onclick="autoCheckByAI()">🤖 智能识别并勾选人员</button>
     </div>
-    <div class="toolbar">
-      <button id="restart">重新开始</button>
-      <button id="undo" class="secondary">悔棋</button>
+    <div id="staffGrid" class="staff-grid"></div>
+</div>
+<div class="bottom-bar">
+    <button class="btn btn-gen" onclick="generate()">✨ 生成预览</button>
+    <button class="btn btn-copy" onclick="quickCopy()">📋 直接复制</button>
+</div>
+<div id="overlay" class="result-overlay" onclick="closePopup(event)">
+    <div class="result-content" onclick="event.stopPropagation()">
+        <strong style="display:block; text-align:center; font-size:18px;">排班文案预览</strong>
+        <textarea id="resultText" readonly></textarea>
+        <button class="btn btn-gen" onclick="copyText()">复制文案</button>
+        <button class="btn close-btn" onclick="document.getElementById('overlay').style.display='none'">关闭</button>
     </div>
-    <div class="board-wrap">
-      <canvas id="board" width="660" height="660" aria-label="五子棋棋盘"></canvas>
-    </div>
-    <div class="tips">规则：黑白轮流落子，横向、竖向或斜向任意方向先连成五颗即获胜。电脑和手机都可以直接点击/触摸棋盘落子。</div>
-  </main>
-
-  <script>
-    const canvas = document.getElementById("board");
-    const ctx = canvas.getContext("2d");
-    const statusEl = document.getElementById("status");
-    const restartBtn = document.getElementById("restart");
-    const undoBtn = document.getElementById("undo");
-    const size = 15;
-    const margin = 35;
-    const cell = (canvas.width - margin * 2) / (size - 1);
-    let board = [];
-    let current = 1;
-    let gameOver = false;
-    let history = [];
-
-    function init() {
-      board = Array.from({ length: size }, () => Array(size).fill(0));
-      current = 1;
-      gameOver = false;
-      history = [];
-      statusEl.textContent = "黑棋先手";
-      draw();
+</div>
+<script>
+    window.onload = function() {
+        const today = new Date().toISOString().split('T')[0];
+        document.getElementById('scheduleDate').value = today;
+    };
+    function pickCanteen() {
+        const canteens = ['PAB食堂', '团队大楼食堂', '明日世界食堂'];
+        const result = canteens[Math.floor(Math.random() * canteens.length)];
+        alert("✨ 走！今天去吃：\n\n👉 " + result + " 👈");
     }
-
-    function draw() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      drawWood();
-      drawGrid();
-      drawStars();
-      drawPieces();
+    const staffNames = ['郑思瑜', '马强', '贺坤华', '刘庭旭', '邵成海', '钱佳恩', '闫国豪', '陈军', '刘伟伟', '张文芳', '唐海添', '聂国标', '李东绪', '赵国华', '罗光荣', '张禹', '陈财', '张云翔'];
+    const roleConfig = [
+        { display: '激光1', full: '激光操作员' },
+        { display: '观察A', full: '观察A' },
+        { display: '观察B', full: '观察B' },
+        { display: '控台', full: '控台操作员' },
+        { display: '视频', full: '视频操作员' },
+        { display: '激光3', full: '激光3' },
+        { display: '自动化', full: '自动化' },
+        { display: '台仓1', full: '台仓1' },
+        { display: '台仓2', full: '台仓2' },
+        { display: '特效', full: '特效观察' },
+        { display: '激光2', full: '激光观察员' }
+    ];
+    const grid = document.getElementById('staffGrid');
+    staffNames.forEach(name => {
+        let html = `<div class="card"><span class="staff-name">${name}</span><div class="role-group">`;
+        roleConfig.forEach(r => { html += `<label class="role-opt"><input type="checkbox" class="role-ck" data-name="${name}" data-role-full="${r.full}"> ${r.display}</label>`; });
+        html += `</div><div class="extra-tools"><label><input type="checkbox" class="ins-ck" data-name="${name}"> 装大门板</label><label><input type="checkbox" class="rev-ck" data-name="${name}"> 收大门板</label></div></div>`;
+        grid.innerHTML += html;
+    });
+    function autoCheckByAI() {
+        const text = document.getElementById('aiInput').value;
+        if(!text) return;
+        document.querySelectorAll('.role-ck').forEach(c => c.checked = false);
+        roleConfig.forEach(r => {
+            let pattern = r.full;
+            if(r.display === '激光1') pattern = "(激光操作员|激光1|X激光|激光)";
+            if(r.display === '激光2') pattern = "(激光观察员|激光2)";
+            const reg = new RegExp(`${pattern}[：:]\\s*(\\S+?)(\\s|$)`, 'i');
+            const match = text.match(reg);
+            if(match) {
+                const name = match[match.length - 1] || match[1];
+                const target = document.querySelector(`.role-ck[data-name*="${name}"][data-role-full="${r.full}"]`);
+                if(target) target.checked = true;
+            }
+        });
     }
-
-    function drawWood() {
-      const gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
-      gradient.addColorStop(0, "#efc278");
-      gradient.addColorStop(0.55, "#d39a4d");
-      gradient.addColorStop(1, "#b67831");
-      ctx.fillStyle = gradient;
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
-      ctx.globalAlpha = 0.12;
-      ctx.strokeStyle = "#6a3712";
-      for (let i = 0; i < 18; i++) {
-        ctx.beginPath();
-        const y = 20 + i * 38;
-        ctx.moveTo(12, y);
-        ctx.bezierCurveTo(190, y - 20, 410, y + 25, 648, y - 8);
-        ctx.stroke();
-      }
-      ctx.globalAlpha = 1;
+    function getNames(roleFullName) {
+        const checked = Array.from(document.querySelectorAll(`.role-ck[data-role-full="${roleFullName}"]:checked`));
+        return checked.map(c => {
+            let n = c.dataset.name;
+            const card = c.closest('.card');
+            const ins = card.querySelector('.ins-ck').checked;
+            const rev = card.querySelector('.rev-ck').checked;
+            if(ins && rev) n += "（装收大门板）";
+            else if(ins) n += "（装大门板）";
+            else if(rev) n += "（收大门板）";
+            return n;
+        }).join('、') || "[待定]";
     }
+    function generate() {
+        const dateInput = document.getElementById('scheduleDate').value;
+        const d = new Date(dateInput);
+        const week = ['星期日', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六'];
+        const dateStr = `${d.getFullYear()}年 ${d.getMonth()+1}月${d.getDate()}日 ${week[d.getDay()]}`;
+        const template = `${dateStr}
+舞台技师工作安排：
 
-    function drawGrid() {
-      ctx.strokeStyle = "#3c210f";
-      ctx.lineWidth = 1.4;
-      for (let i = 0; i < size; i++) {
-        const p = margin + i * cell;
-        ctx.beginPath();
-        ctx.moveTo(margin, p);
-        ctx.lineTo(canvas.width - margin, p);
-        ctx.stroke();
-        ctx.beginPath();
-        ctx.moveTo(p, margin);
-        ctx.lineTo(p, canvas.height - margin);
-        ctx.stroke();
-      }
+激光操作员: ${getNames('激光操作员')}
+观察A: ${getNames('观察A')}
+观察B: ${getNames('观察B')}
+预设内容:17:00前确认皇家宴会厅窗帘预设完成；预设：测试激光低功率 开219A B窗户、测试 水幕/喷泉/灯光/投影，装二楼挡板，九米幕布，   演出结束：关闭219A B窗户，二楼挡板，九米幕布）注意观察环境灯光以及show lighting状态  检查预设两侧炮楼和中间位置喷花机米奇耳朵
+
+控台操作员: ${getNames('控台操作员')}
+视频操作员: ${getNames('视频操作员')}
+激光3: ${getNames('激光3')}
+预设工作内容: 装收舞台喷花机 装收舞台围挡布（ 测试花园灯以及激光，注意观察环境灯光以及show lighting状态、演出前后观察橡树果上升下降状况 升降center piece
+
+自动化: ${getNames('自动化')}
+台仓1: ${getNames('台仓1')}
+台仓2: ${getNames('台仓2')}
+特效观察: ${getNames('特效观察')}
+预设工作内容: 升降灯塔 水幕 C0106 窗帘 ，测试舞台机械以及LED屏幕升降状态，开关舞台投影机盖板 检查两侧灯塔LED电源状态  测试花园LED灯柱  演出中观察花园以及巡游大道喷花机 烟机特效状态 演出后测试LED升降设备状态
+
+激光观察员: ${getNames('激光观察员')}（携带指定工具，按预设流程检查后场480平台、205和221相关设备状态；演出结束：按流程恢复现场状态并降后场480平台）注意观察环境灯光以及show lighting状态  演出前后汇报花车大道LED状态`;
+        document.getElementById('resultText').value = template;
+        document.getElementById('overlay').style.display = 'flex';
     }
-
-    function drawStars() {
-      const points = [[3,3], [11,3], [7,7], [3,11], [11,11]];
-      ctx.fillStyle = "#3c210f";
-      points.forEach(([x, y]) => {
-        ctx.beginPath();
-        ctx.arc(margin + x * cell, margin + y * cell, 5, 0, Math.PI * 2);
-        ctx.fill();
-      });
-    }
-
-    function drawPieces() {
-      for (let y = 0; y < size; y++) {
-        for (let x = 0; x < size; x++) {
-          if (board[y][x]) drawPiece(x, y, board[y][x]);
-        }
-      }
-    }
-
-    function drawPiece(x, y, player) {
-      const px = margin + x * cell;
-      const py = margin + y * cell;
-      const r = cell * 0.42;
-      ctx.beginPath();
-      ctx.arc(px, py, r, 0, Math.PI * 2);
-      const gradient = ctx.createRadialGradient(px - r / 3, py - r / 3, 2, px, py, r);
-      if (player === 1) {
-        gradient.addColorStop(0, "#5a5a5a");
-        gradient.addColorStop(0.55, "#151515");
-        gradient.addColorStop(1, "#000");
-      } else {
-        gradient.addColorStop(0, "#fff");
-        gradient.addColorStop(0.65, "#e8e8e8");
-        gradient.addColorStop(1, "#bdbdbd");
-      }
-      ctx.fillStyle = gradient;
-      ctx.fill();
-      ctx.strokeStyle = player === 1 ? "rgba(0,0,0,.5)" : "rgba(70,70,70,.45)";
-      ctx.lineWidth = 1;
-      ctx.stroke();
-    }
-
-    function getCell(event) {
-      const rect = canvas.getBoundingClientRect();
-      const scaleX = canvas.width / rect.width;
-      const scaleY = canvas.height / rect.height;
-      const clientX = event.touches ? event.touches[0].clientX : event.clientX;
-      const clientY = event.touches ? event.touches[0].clientY : event.clientY;
-      const x = Math.round((clientX - rect.left) * scaleX - margin) / cell;
-      const y = Math.round((clientY - rect.top) * scaleY - margin) / cell;
-      return { x: Math.round(x), y: Math.round(y) };
-    }
-
-    function place(event) {
-      if (gameOver) return;
-      const { x, y } = getCell(event);
-      if (x < 0 || y < 0 || x >= size || y >= size || board[y][x] !== 0) return;
-      board[y][x] = current;
-      history.push({ x, y, player: current });
-      draw();
-      if (checkWin(x, y, current)) {
-        statusEl.textContent = current === 1 ? "黑棋胜利！" : "白棋胜利！";
-        gameOver = true;
-        return;
-      }
-      if (history.length === size * size) {
-        statusEl.textContent = "平局";
-        gameOver = true;
-        return;
-      }
-      current = current === 1 ? 2 : 1;
-      statusEl.textContent = current === 1 ? "轮到黑棋" : "轮到白棋";
-    }
-
-    function checkWin(x, y, player) {
-      const directions = [[1, 0], [0, 1], [1, 1], [1, -1]];
-      return directions.some(([dx, dy]) => {
-        let count = 1;
-        count += countDirection(x, y, dx, dy, player);
-        count += countDirection(x, y, -dx, -dy, player);
-        return count >= 5;
-      });
-    }
-
-    function countDirection(x, y, dx, dy, player) {
-      let count = 0;
-      let nx = x + dx;
-      let ny = y + dy;
-      while (nx >= 0 && ny >= 0 && nx < size && ny < size && board[ny][nx] === player) {
-        count++;
-        nx += dx;
-        ny += dy;
-      }
-      return count;
-    }
-
-    function undo() {
-      if (!history.length) return;
-      const last = history.pop();
-      board[last.y][last.x] = 0;
-      current = last.player;
-      gameOver = false;
-      statusEl.textContent = current === 1 ? "轮到黑棋" : "轮到白棋";
-      draw();
-    }
-
-    canvas.addEventListener("click", place);
-    canvas.addEventListener("touchstart", (event) => {
-      event.preventDefault();
-      place(event);
-    }, { passive: false });
-    restartBtn.addEventListener("click", init);
-    undoBtn.addEventListener("click", undo);
-    init();
-  </script>
+    function quickCopy() { generate(); copyText(); document.getElementById('overlay').style.display = 'none'; }
+    function copyText() { const t = document.getElementById('resultText'); t.select(); t.setSelectionRange(0, 99999); document.execCommand('copy'); alert("✅ 文案已复制！"); }
+    function closePopup(e) { if(e.target.id === 'overlay') e.target.style.display = 'none'; }
+</script>
 </body>
 </html>
