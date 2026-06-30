@@ -1,91 +1,37 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>舞台排班 Pro</title>
-    <style>
-        :root{--ios-blue:#007aff;--ios-purple:#5856d6;--ios-orange:#ff9500;--bg:#f2f2f7;--card:#ffffff;--text:#1c1c1e;--sub:#8e8e93;--line:#d1d1d6;--field:#f9f9fb}
-        *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-        body{font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","SF Pro Display","Segoe UI",sans-serif;background:var(--bg);padding:10px;margin:0;padding-bottom:82px;color:var(--text)}
-        .container{max-width:920px;margin:0 auto}
-        .top-section{background:var(--card);padding:12px;border-radius:18px;border:1px solid rgba(60,60,67,.12);margin-bottom:14px;box-shadow:0 1px 2px rgba(0,0,0,.04)}
-        .date-row{display:flex;align-items:center;gap:8px;margin-bottom:25px;flex-wrap:wrap}
-        .date-row label{font-size:14px;font-weight:700;color:#3a3a3c}
-        .date-picker{flex:1;padding:10px;border:1px solid var(--line);border-radius:12px;font-size:15px;min-width:120px;background:var(--field);color:var(--text);height:42px;text-align:center}
-        .canteen-wrapper{position:relative;display:inline-block}
-        .btn-canteen{background:var(--ios-orange);color:white;border:none;padding:10px 12px;border-radius:12px;font-weight:700;font-size:13px;cursor:pointer;height:42px;box-shadow:none}
-        .btn-device{background:var(--ios-blue);color:white;border:none;padding:10px 12px;border-radius:12px;font-weight:700;font-size:13px;cursor:pointer;height:42px;box-shadow:none}
-        .canteen-hint{position:absolute;top:100%;left:50%;transform:translateX(-50%);white-space:nowrap;font-size:11px;color:var(--ios-orange);margin-top:4px;font-weight:500;animation:hintBounce 2s infinite}
-        @keyframes hintBounce{0%,100%{transform:translateX(-50%) translateY(0);opacity:.7}50%{transform:translateX(-50%) translateY(-3px);opacity:1}}
-        textarea#aiInput{width:100%;height:45px;border:1px solid var(--line);border-radius:12px;padding:10px 12px;box-sizing:border-box;font-size:14px;background:var(--field);outline:none;resize:none;color:var(--text)}
-        textarea#aiInput:focus{border-color:var(--ios-blue);box-shadow:0 0 0 3px rgba(0,122,255,.12)}
-        .btn-ai{background:var(--ios-purple);color:white;width:100%;border:none;padding:12px;margin-top:8px;border-radius:12px;font-weight:700;font-size:15px;box-shadow:none}
-        .staff-grid{display:grid;grid-template-columns:1fr;gap:12px}
-        @media(min-width:600px){.staff-grid{grid-template-columns:repeat(auto-fill,minmax(300px,1fr))}}
-        .card{background:var(--card);padding:15px;border-radius:18px;box-shadow:0 1px 2px rgba(0,0,0,.04);border:1px solid rgba(60,60,67,.12)}
-        .staff-name{font-weight:800;color:var(--text);font-size:18px;margin-bottom:12px;display:block;border-left:4px solid var(--ios-blue);padding-left:10px}
-        .staff-name:after{content:""}
-        .role-group{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-        .role-opt{font-size:14px;display:flex;align-items:center;padding:8px 8px;color:#3a3a3c;background:#f9f9fb;border-radius:12px;border:1px solid rgba(60,60,67,.10)}
-        .role-opt input{width:22px;height:22px;margin-right:8px;flex-shrink:0;accent-color:var(--ios-blue)}
-        .extra-tools{margin-top:10px;padding-top:10px;border-top:1px solid rgba(60,60,67,.14);display:flex;gap:20px;font-size:14px;color:#1c1c1e;font-weight:700}
-        .extra-tools input{accent-color:var(--ios-orange)}
-        .bottom-bar{position:fixed;bottom:0;left:0;right:0;background:rgba(255,255,255,.9);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);display:flex;padding:12px 15px calc(12px + env(safe-area-inset-bottom));gap:12px;box-shadow:0 -1px 0 rgba(60,60,67,.14);z-index:100}
-        .btn{flex:1;padding:14px;border-radius:14px;border:none;font-weight:800;color:white;font-size:16px}
-        .btn-gen{background:var(--ios-blue)}
-        .btn-copy{background:#2c2c2e}
-        .result-overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.35);display:none;z-index:200;align-items:flex-end;backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px)}
-        .result-content{background:white;width:100%;border-radius:22px 22px 0 0;padding:20px;box-sizing:border-box;box-shadow:0 -8px 30px rgba(0,0,0,.16)}
-        #resultText{width:100%;height:280px;margin:15px 0;border-radius:14px;border:1px solid var(--line);padding:12px;font-size:14px;background:#f9f9fb;box-sizing:border-box;line-height:1.55}
-        .close-btn{background:#f2f2f7!important;color:#3a3a3c!important;margin-top:8px}
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<title>舞台工具首页</title>
+<style>
+:root{--bg:#f2f2f7;--card:#fff;--text:#1c1c1e;--sub:#8e8e93;--blue:#007aff;--purple:#5856d6;--line:rgba(60,60,67,.14)}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{margin:0;min-height:100vh;background:var(--bg);font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","SF Pro Display","Segoe UI",sans-serif;color:var(--text);display:flex;align-items:center;justify-content:center;padding:18px}
+.home{width:100%;max-width:520px}.hero{margin-bottom:18px}.eyebrow{font-size:13px;color:var(--sub);font-weight:800;margin-bottom:8px}.title{font-size:32px;font-weight:950;letter-spacing:-.6px;margin:0 0 8px}.desc{font-size:15px;color:var(--sub);line-height:1.6;margin:0}.card{background:var(--card);border:1px solid var(--line);border-radius:26px;padding:16px;box-shadow:0 1px 2px rgba(0,0,0,.04)}.menu{display:grid;gap:12px}.menu-btn{border:none;border-radius:20px;padding:18px 16px;text-align:left;font-weight:900;font-size:18px;color:#fff;display:flex;align-items:center;justify-content:space-between;min-height:82px;cursor:pointer}.menu-btn span{display:block}.menu-btn small{display:block;font-size:13px;font-weight:700;opacity:.82;margin-top:5px}.schedule{background:linear-gradient(135deg,var(--blue),var(--purple))}.map{background:linear-gradient(135deg,#1c1c1e,#3a3a3c)}.arrow{font-size:24px;opacity:.9}.footer{font-size:12px;color:var(--sub);text-align:center;margin-top:14px;line-height:1.5}
+</style>
 </head>
 <body>
-<div class="container">
-    <div class="top-section">
-        <div class="date-row">
-            <label>日期</label>
-            <input type="date" id="scheduleDate" class="date-picker">
-            <div class="canteen-wrapper"><button class="btn-canteen" onclick="pickCanteen()">🍱 食堂抽奖</button><span class="canteen-hint">点我抽奖</span></div>
-            <button class="btn-device" onclick="location.href='device-map.html?v=map4'">🗺️ 设备图</button>
-        </div>
-        <textarea id="aiInput" placeholder="在此粘贴 AI 识别出的文字..."></textarea>
-        <button class="btn-ai" onclick="autoCheckByAI()">🤖 智能识别并勾选人员</button>
+<main class="home">
+  <section class="hero">
+    <div class="eyebrow">Stage Work Tools</div>
+    <h1 class="title">舞台工作工具</h1>
+    <p class="desc">选择需要打开的工具。</p>
+  </section>
+  <section class="card">
+    <div class="menu">
+      <button class="menu-btn schedule" onclick="location.href='schedule.html?v=20260701'">
+        <span>舞台排班工具<small>人员勾选 / 生成文案 / 复制排班</small></span><b class="arrow">›</b>
+      </button>
+      <button class="menu-btn map" onclick="location.href='device-map.html?v=map5'">
+        <span>设备图<small>激光点位图 / 城堡特效图 / 花园特效图 / 花园烟机</small></span><b class="arrow">›</b>
+      </button>
     </div>
-    <div id="staffGrid" class="staff-grid"></div>
-</div>
-<div class="bottom-bar"><button class="btn btn-gen" onclick="generate()">✨ 生成预览</button><button class="btn btn-copy" onclick="quickCopy()">📋 直接复制</button></div>
-<div id="overlay" class="result-overlay" onclick="closePopup(event)"><div class="result-content" onclick="event.stopPropagation()"><strong style="display:block;text-align:center;font-size:18px;">排班文案预览</strong><textarea id="resultText" readonly></textarea><button class="btn btn-gen" onclick="copyText()">复制文案</button><button class="btn close-btn" onclick="document.getElementById('overlay').style.display='none'">关闭</button></div></div>
-<script>
-    window.onload=function(){const today=new Date().toISOString().split('T')[0];document.getElementById('scheduleDate').value=today};
-    function pickCanteen(){const canteens=['PAB食堂','团队大楼食堂','明日世界食堂'];const result=canteens[Math.floor(Math.random()*canteens.length)];alert("✨ 走！今天去吃：\n\n👉 "+result+" 👈")}
-    const staffNames=['郑思瑜','马强','贺坤华','刘庭旭','邵成海','钱佳恩','闫国豪','陈军','刘伟伟','张文芳','唐海添','聂国标','李东绪','赵国华','罗光荣','张禹','陈财','张云翔'];
-    const roleConfig=[{display:'激光1',full:'激光操作员'},{display:'观察A',full:'观察A'},{display:'观察B',full:'观察B'},{display:'控台',full:'控台操作员'},{display:'视频',full:'视频操作员'},{display:'激光3',full:'激光3'},{display:'自动化',full:'自动化'},{display:'台仓1',full:'台仓1'},{display:'台仓2',full:'台仓2'},{display:'特效',full:'特效观察'},{display:'激光2',full:'激光观察员'}];
-    const grid=document.getElementById('staffGrid');staffNames.forEach(name=>{let html=`<div class="card"><span class="staff-name">${name}</span><div class="role-group">`;roleConfig.forEach(r=>{html+=`<label class="role-opt"><input type="checkbox" class="role-ck" data-name="${name}" data-role-full="${r.full}"> ${r.display}</label>`});html+=`</div><div class="extra-tools"><label><input type="checkbox" class="ins-ck" data-name="${name}"> 装大门板</label><label><input type="checkbox" class="rev-ck" data-name="${name}"> 收大门板</label></div></div>`;grid.innerHTML+=html});
-    function autoCheckByAI(){const text=document.getElementById('aiInput').value;if(!text)return;document.querySelectorAll('.role-ck').forEach(c=>c.checked=false);roleConfig.forEach(r=>{let pattern=r.full;if(r.display==='激光1')pattern="(激光操作员|激光1|X激光|激光)";if(r.display==='激光2')pattern="(激光观察员|激光2)";const reg=new RegExp(`${pattern}[：:]\\s*(\\S+?)(\\s|$)`,'i');const match=text.match(reg);if(match){const name=match[match.length-1]||match[1];const target=document.querySelector(`.role-ck[data-name*="${name}"][data-role-full="${r.full}"]`);if(target)target.checked=true}})}
-    function getNames(roleFullName){const checked=Array.from(document.querySelectorAll(`.role-ck[data-role-full="${roleFullName}"]:checked`));return checked.map(c=>{let n=c.dataset.name;const card=c.closest('.card');const ins=card.querySelector('.ins-ck').checked;const rev=card.querySelector('.rev-ck').checked;if(ins&&rev)n+="（装收大门板）";else if(ins)n+="（装大门板）";else if(rev)n+="（收大门板）";return n}).join('、')||"[待定]"}
-    function generate(){const dateInput=document.getElementById('scheduleDate').value;const d=new Date(dateInput);const week=['星期日','星期一','星期二','星期三','星期四','星期五','星期六'];const dateStr=`${d.getFullYear()}年 ${d.getMonth()+1}月${d.getDate()}日 ${week[d.getDay()]}`;const template=`${dateStr}
-舞台技师工作安排：
-
-激光操作员: ${getNames('激光操作员')}
-观察A: ${getNames('观察A')}
-观察B: ${getNames('观察B')}
-预设内容:17:00前确认皇家宴会厅窗帘预设完成；预设：测试激光低功率 开219A B窗户、测试 水幕/喷泉/灯光/投影，装二楼挡板，九米幕布，   演出结束：关闭219A B窗户，二楼挡板，九米幕布）注意观察环境灯光以及show lighting状态  检查预设两侧炮楼和中间位置喷花机米奇耳朵
-
-控台操作员: ${getNames('控台操作员')}
-视频操作员: ${getNames('视频操作员')}
-激光3: ${getNames('激光3')}
-预设工作内容: 装收舞台喷花机 装收舞台围挡布（ 测试花园灯以及激光，注意观察环境灯光以及show lighting状态、演出前后观察橡树果上升下降状况 升降center piece
-
-自动化: ${getNames('自动化')}
-台仓1: ${getNames('台仓1')}
-台仓2: ${getNames('台仓2')}
-特效观察: ${getNames('特效观察')}
-预设工作内容: 升降灯塔 水幕 C0106 窗帘 ，测试舞台机械以及LED屏幕升降状态，开关舞台投影机盖板 检查两侧灯塔LED电源状态  测试花园LED灯柱  演出中观察花园以及巡游大道喷花机 烟机特效状态 演出后测试LED升降设备状态
-
-激光观察员: ${getNames('激光观察员')}（带大钥匙柜102号万能钥匙、预设：后场480测试&升起、检查205、221屋顶投影机空调、投影机空调湿度，米奇大街屋顶检查上锁；演出结束：米奇大街屋顶解锁、降后场480平台）注意观察环境灯光以及show lighting状态  演出前后汇报花车大道LED状态`;document.getElementById('resultText').value=template;document.getElementById('overlay').style.display='flex'}
-    function quickCopy(){generate();copyText();document.getElementById('overlay').style.display='none'}function copyText(){const t=document.getElementById('resultText');t.select();t.setSelectionRange(0,99999);document.execCommand('copy');alert("✅ 文案已复制！")}function closePopup(e){if(e.target.id==='overlay')e.target.style.display='none'}
-</script>
+  </section>
+  <div class="footer">打开主页面后，从这里进入对应工具。</div>
+</main>
 </body>
 </html>
