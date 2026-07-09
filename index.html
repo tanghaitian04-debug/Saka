@@ -11,7 +11,7 @@
 :root{--bg:#f2f2f7;--card:#fff;--text:#1c1c1e;--sub:#8e8e93;--blue:#007aff;--purple:#5856d6;--line:rgba(60,60,67,.14)}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 body{margin:0;min-height:100vh;background:var(--bg);font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","SF Pro Display","Segoe UI",sans-serif;color:var(--text);display:flex;align-items:center;justify-content:center;padding:18px}
-.home{width:100%;max-width:520px}.hero{margin-bottom:18px}.eyebrow{font-size:13px;color:var(--sub);font-weight:800;margin-bottom:8px}.title{font-size:32px;font-weight:950;letter-spacing:-.6px;margin:0 0 8px}.desc{font-size:15px;color:var(--sub);line-height:1.6;margin:0}.card{background:var(--card);border:1px solid var(--line);border-radius:26px;padding:16px;box-shadow:0 1px 2px rgba(0,0,0,.04)}.menu{display:grid;gap:12px}.menu-btn{border:none;border-radius:20px;padding:18px 16px;text-align:left;font-weight:900;font-size:18px;color:#fff;display:flex;align-items:center;justify-content:space-between;min-height:82px;cursor:pointer}.menu-btn span{display:block}.menu-btn small{display:block;font-size:13px;font-weight:700;opacity:.82;margin-top:5px}.schedule{background:linear-gradient(135deg,var(--blue),var(--purple))}.map{background:linear-gradient(135deg,#1c1c1e,#3a3a3c)}.arrow{font-size:24px;opacity:.9}.footer{font-size:12px;color:var(--sub);text-align:center;margin-top:14px;line-height:1.5}
+.home{width:100%;max-width:520px}.hero{margin-bottom:18px}.eyebrow{font-size:13px;color:var(--sub);font-weight:800;margin-bottom:8px}.title{font-size:32px;font-weight:950;letter-spacing:-.6px;margin:0 0 8px}.desc{font-size:15px;color:var(--sub);line-height:1.6;margin:0}.card{background:var(--card);border:1px solid var(--line);border-radius:26px;padding:16px;box-shadow:0 1px 2px rgba(0,0,0,.04)}.menu{display:grid;gap:12px}.menu-btn{border:none;border-radius:20px;padding:18px 16px;text-align:left;font-weight:900;font-size:18px;color:#fff;display:flex;align-items:center;justify-content:space-between;min-height:82px;cursor:pointer}.menu-btn span{display:block}.menu-btn small{display:block;font-size:13px;font-weight:700;opacity:.82;margin-top:5px}.schedule{background:linear-gradient(135deg,var(--blue),var(--purple))}.map{background:linear-gradient(135deg,#1c1c1e,#3a3a3c)}.jet{background:linear-gradient(135deg,#ff9500,#ff2d55)}.arrow{font-size:24px;opacity:.9}.footer{font-size:12px;color:var(--sub);text-align:center;margin-top:14px;line-height:1.5}
 </style>
 </head>
 <body>
@@ -28,6 +28,9 @@ body{margin:0;min-height:100vh;background:var(--bg);font-family:-apple-system,Bl
       </button>
       <button class="menu-btn map" onclick="location.href='device-map.html?v=map5'">
         <span>设备图<small>激光点位图 / 城堡特效图 / 花园特效图 / 花园烟机</small></span><b class="arrow">›</b>
+      </button>
+      <button class="menu-btn jet" onclick="location.href='jet-material.html?v=jet1'">
+        <span>JET物料登记表<small>燃料领用 / 库存剩余 / 登记记录</small></span><b class="arrow">›</b>
       </button>
     </div>
   </section>
