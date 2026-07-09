@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<title>JET物料登记表</title>
+<style>
+:root{
+  --bg:#f2f2f7;
+  --card:#fff;
+  --text:#1c1c1e;
+  --sub:#7c7c82;
+  --line:rgba(60,60,67,.14);
+  --orange:#ff9500;
+  --red:#ff2d55;
+  --green:#34c759;
+  --blue:#007aff;
+  --ink:#2c2c2e;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{margin:0;background:var(--bg);font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","SF Pro Display","Segoe UI",sans-serif;color:var(--text)}
+button,input,select,textarea{font:inherit}
+button{cursor:pointer}
+.shell{width:100%;max-width:760px;margin:0 auto;padding:16px 14px 32px}
+.top{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:16px}
+.back{color:var(--blue);text-decoration:none;font-size:15px;font-weight:800;white-space:nowrap}
+.kicker{font-size:12px;color:var(--sub);font-weight:900;letter-spacing:.5px;text-align:right}
+.hero{background:linear-gradient(135deg,var(--orange),var(--red));border-radius:24px;color:#fff;padding:20px 18px;box-shadow:0 12px 28px rgba(255,45,85,.18);margin-bottom:14px}
+.hero h1{font-size:30px;line-height:1.1;margin:0 0 8px;font-weight:950;letter-spacing:0}
+.hero p{font-size:14px;line-height:1.5;margin:0;opacity:.9;font-weight:650}
+.summary{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px}
+.metric{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:12px 10px}
+.metric b{display:block;font-size:22px;line-height:1.1;margin-bottom:4px}
+.metric span{display:block;color:var(--sub);font-size:12px;font-weight:750}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:14px;margin-bottom:12px;box-shadow:0 1px 2px rgba(0,0,0,.04)}
+.panel-title{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:12px}
+.panel-title h2{font-size:18px;margin:0;font-weight:950;letter-spacing:0}
+.panel-title small{color:var(--sub);font-size:12px;font-weight:750;text-align:right}
+.inventory{display:grid;gap:10px}
+.stock-row{display:grid;grid-template-columns:1fr auto;gap:10px;align-items:center;border:1px solid var(--line);border-radius:16px;padding:12px;background:#fbfbfd}
+.stock-name{font-weight:900;font-size:16px;min-width:0;overflow-wrap:anywhere}
+.stock-sub{font-size:12px;color:var(--sub);font-weight:750;margin-top:4px}
+.stock-num{text-align:right;font-size:28px;font-weight:950;line-height:1}
+.stock-num.low{color:var(--red)}
+.seg{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;background:#e9e9ef;border-radius:16px;padding:4px;margin-bottom:12px}
+.seg button{border:none;border-radius:12px;background:transparent;color:var(--ink);font-size:14px;font-weight:900;min-height:38px}
+.seg button.active{background:#fff;box-shadow:0 1px 2px rgba(0,0,0,.08)}
+.view{display:none}
+.view.active{display:block}
+.form{display:grid;gap:10px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+label{display:grid;gap:6px;font-size:13px;color:var(--sub);font-weight:850}
+input,select,textarea{width:100%;border:1px solid var(--line);border-radius:14px;background:#fbfbfd;color:var(--text);padding:12px;font-size:16px;outline:none}
+textarea{min-height:74px;resize:vertical}
+input:focus,select:focus,textarea:focus{border-color:rgba(0,122,255,.55);box-shadow:0 0 0 3px rgba(0,122,255,.12)}
+.btn{border:none;border-radius:15px;min-height:48px;padding:0 15px;font-size:16px;font-weight:950;color:#fff;background:linear-gradient(135deg,var(--orange),var(--red));display:inline-flex;align-items:center;justify-content:center;gap:8px}
+.btn.secondary{background:var(--ink)}
+.btn.ghost{background:#f0f0f5;color:var(--ink)}
+.btn-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.hint{font-size:12px;line-height:1.5;color:var(--sub);font-weight:700;margin-top:8px}
+.tools{display:grid;grid-template-columns:1fr auto auto;gap:8px;margin-bottom:10px}
+.tools input,.tools select{font-size:14px;padding:10px;border-radius:12px}
+.small-btn{border:none;border-radius:12px;min-height:42px;padding:0 12px;background:#eeeef4;color:var(--ink);font-size:13px;font-weight:900;white-space:nowrap}
+.records{display:grid;gap:9px}
+.record{border:1px solid var(--line);border-radius:16px;background:#fbfbfd;padding:12px}
+.record-head{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
+.record-title{font-size:15px;font-weight:950;line-height:1.35;min-width:0;overflow-wrap:anywhere}
+.tag{border-radius:999px;padding:5px 9px;font-size:12px;font-weight:950;color:#fff;white-space:nowrap}
+.tag.out{background:var(--red)}
+.tag.in{background:var(--green)}
+.record-meta{margin-top:7px;color:var(--sub);font-size:12px;line-height:1.55;font-weight:750}
+.record-bottom{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:10px}
+.after{font-size:13px;font-weight:950}
+.undo{border:none;background:#ececf2;color:#3a3a3c;border-radius:10px;padding:8px 10px;font-size:12px;font-weight:900}
+.empty{border:1px dashed var(--line);border-radius:16px;padding:18px;text-align:center;color:var(--sub);font-size:14px;font-weight:800;background:#fbfbfd}
+.toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%) translateY(18px);background:rgba(28,28,30,.92);color:#fff;border-radius:999px;padding:11px 16px;font-size:14px;font-weight:850;opacity:0;pointer-events:none;transition:.22s ease;max-width:88%;text-align:center}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+@media (max-width:560px){
+  .shell{padding:14px 12px 26px}
+  .hero h1{font-size:28px}
+  .summary{grid-template-columns:1fr 1fr 1fr}
+  .metric{padding:10px 8px}
+  .metric b{font-size:20px}
+  .grid2,.btn-row{grid-template-columns:1fr}
+  .tools{grid-template-columns:1fr 104px}
+  .tools .small-btn{grid-column:span 1}
+}
+</style>
+</head>
+<body>
+<main class="shell">
+  <div class="top">
+    <a class="back" href="index.html">‹ 首页</a>
+    <div class="kicker">JET MATERIALS</div>
+  </div>
+
+  <section class="hero">
+    <h1>JET物料登记表</h1>
+    <p>领取、入库和剩余包数自动记录。</p>
+  </section>
+
+  <section class="summary" aria-label="库存摘要">
+    <div class="metric"><b id="totalStock">0</b><span>当前总库存</span></div>
+    <div class="metric"><b id="todayOut">0</b><span>今日领取</span></div>
+    <div class="metric"><b id="recordCount">0</b><span>登记记录</span></div>
+  </section>
+
+  <section class="panel">
+    <div class="panel-title">
+      <h2>库存剩余</h2>
+      <small id="lowText">低库存会标红</small>
+    </div>
+    <div class="inventory" id="inventoryList"></div>
+  </section>
+
+  <section class="panel">
+    <nav class="seg" aria-label="登记功能">
+      <button type="button" class="active" data-view="outView">领取</button>
+      <button type="button" data-view="inView">入库</button>
+      <button type="button" data-view="recordView">记录</button>
+    </nav>
+
+    <section class="view active" id="outView">
+      <form class="form" id="outForm">
+        <div class="grid2">
+          <label>日期
+            <input type="date" id="outDate" required>
+          </label>
+          <label>领取人
+            <input type="text" id="outName" list="peopleList" placeholder="输入姓名" autocomplete="off" required>
+          </label>
+        </div>
+        <div class="grid2">
+          <label>型号
+            <select id="outMaterial" required></select>
+          </label>
+          <label>领取包数
+            <input type="number" id="outQty" min="1" step="1" inputmode="numeric" placeholder="几包" required>
+          </label>
+        </div>
+        <label>备注
+          <textarea id="outNote" placeholder="可不填"></textarea>
+        </label>
+        <button class="btn" type="submit">提交领取登记</button>
+      </form>
+    </section>
+
+    <section class="view" id="inView">
+      <form class="form" id="inForm">
+        <div class="grid2">
+          <label>日期
+            <input type="date" id="inDate" required>
+          </label>
+          <label>经手人
+            <input type="text" id="inName" list="peopleList" placeholder="输入姓名" autocomplete="off">
+          </label>
+        </div>
+        <div class="grid2">
+          <label>型号
+            <select id="inMaterial" required></select>
+          </label>
+          <label>补充包数
+            <input type="number" id="inQty" min="1" step="1" inputmode="numeric" placeholder="几包" required>
+          </label>
+        </div>
+        <label>备注
+          <textarea id="inNote" placeholder="例如：新到货、盘点补录"></textarea>
+        </label>
+        <button class="btn secondary" type="submit">提交入库登记</button>
+      </form>
+
+      <div class="hint">第一次使用时，先在这里补充库存；有新型号时，下面可以添加。</div>
+
+      <form class="form" id="materialForm" style="margin-top:12px">
+        <div class="grid2">
+          <label>新增型号
+            <input type="text" id="newMaterialName" placeholder="例如：JET燃料 A型">
+          </label>
+          <label>初始包数
+            <input type="number" id="newMaterialStock" min="0" step="1" inputmode="numeric" placeholder="0">
+          </label>
+        </div>
+        <div class="grid2">
+          <label>低库存提醒
+            <input type="number" id="newMaterialLow" min="0" step="1" inputmode="numeric" value="10">
+          </label>
+          <label>添加常用人员
+            <input type="text" id="newPersonName" placeholder="输入姓名">
+          </label>
+        </div>
+        <div class="btn-row">
+          <button class="btn ghost" type="submit">添加型号</button>
+          <button class="btn ghost" type="button" id="addPersonBtn">添加人员</button>
+        </div>
+      </form>
+    </section>
+
+    <section class="view" id="recordView">
+      <div class="tools">
+        <input type="search" id="searchText" placeholder="搜索姓名 / 型号 / 备注">
+        <select id="typeFilter">
+          <option value="all">全部</option>
+          <option value="out">领取</option>
+          <option value="in">入库</option>
+        </select>
+        <button class="small-btn" id="exportBtn" type="button">导出</button>
+      </div>
+      <div class="records" id="recordList"></div>
+    </section>
+  </section>
+
+  <datalist id="peopleList"></datalist>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+</main>
+
+<script>
+const STORAGE_KEY = "stage-tools-jet-material-v1";
+const today = () => {
+  const d = new Date();
+  const y = d.getFullYear();
+  const m = String(d.getMonth() + 1).padStart(2, "0");
+  const day = String(d.getDate()).padStart(2, "0");
+  return `${y}-${m}-${day}`;
+};
+const newId = () => `${Date.now()}-${Math.random().toString(16).slice(2)}`;
+const defaultState = {
+  people: [],
+  materials: [{ id: "jet-default", name: "JET燃料", stock: 0, low: 10 }],
+  records: []
+};
+let state = loadState();
+
+function cloneDefault(value){
+  return JSON.parse(JSON.stringify(value));
+}
+
+function loadState(){
+  try{
+    const saved = JSON.parse(localStorage.getItem(STORAGE_KEY));
+    if(!saved || !Array.isArray(saved.materials) || !Array.isArray(saved.records)) return cloneDefault(defaultState);
+    return {
+      people: Array.isArray(saved.people) ? saved.people : [],
+      materials: saved.materials.length ? saved.materials : cloneDefault(defaultState.materials),
+      records: saved.records
+    };
+  }catch{
+    return cloneDefault(defaultState);
+  }
+}
+
+function saveState(){
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+}
+
+function showToast(text){
+  const toast = document.getElementById("toast");
+  toast.textContent = text;
+  toast.classList.add("show");
+  clearTimeout(showToast.timer);
+  showToast.timer = setTimeout(() => toast.classList.remove("show"), 1800);
+}
+
+function toInt(value){
+  const n = Number.parseInt(value, 10);
+  return Number.isFinite(n) && n >= 0 ? n : 0;
+}
+
+function addPerson(name){
+  const clean = name.trim();
+  if(!clean) return false;
+  if(!state.people.includes(clean)){
+    state.people.push(clean);
+    state.people.sort((a,b) => a.localeCompare(b, "zh-Hans-CN"));
+    return true;
+  }
+  return false;
+}
+
+function getMaterial(id){
+  return state.materials.find(item => item.id === id);
+}
+
+function render(){
+  const total = state.materials.reduce((sum, item) => sum + toInt(item.stock), 0);
+  const todayOut = state.records
+    .filter(item => item.type === "out" && item.date === today())
+    .reduce((sum, item) => sum + toInt(item.qty), 0);
+  document.getElementById("totalStock").textContent = total;
+  document.getElementById("todayOut").textContent = todayOut;
+  document.getElementById("recordCount").textContent = state.records.length;
+  renderInventory();
+  renderOptions();
+  renderPeople();
+  renderRecords();
+}
+
+function renderInventory(){
+  const box = document.getElementById("inventoryList");
+  if(!state.materials.length){
+    box.innerHTML = `<div class="empty">还没有型号</div>`;
+    return;
+  }
+  box.innerHTML = state.materials.map(item => {
+    const low = toInt(item.stock) <= toInt(item.low);
+    return `
+      <div class="stock-row">
+        <div>
+          <div class="stock-name">${escapeHtml(item.name)}</div>
+          <div class="stock-sub">低于 ${toInt(item.low)} 包提醒</div>
+        </div>
+        <div class="stock-num ${low ? "low" : ""}">${toInt(item.stock)}</div>
+      </div>
+    `;
+  }).join("");
+}
+
+function renderOptions(){
+  const options = state.materials.map(item => `<option value="${item.id}">${escapeHtml(item.name)}（剩 ${toInt(item.stock)} 包）</option>`).join("");
+  document.getElementById("outMaterial").innerHTML = options;
+  document.getElementById("inMaterial").innerHTML = options;
+}
+
+function renderPeople(){
+  document.getElementById("peopleList").innerHTML = state.people
+    .map(name => `<option value="${escapeHtml(name)}"></option>`)
+    .join("");
+}
+
+function renderRecords(){
+  const keyword = document.getElementById("searchText").value.trim().toLowerCase();
+  const type = document.getElementById("typeFilter").value;
+  const list = state.records
+    .filter(item => type === "all" || item.type === type)
+    .filter(item => {
+      if(!keyword) return true;
+      return [item.person, item.materialName, item.note, item.date].join(" ").toLowerCase().includes(keyword);
+    })
+    .sort((a,b) => (b.createdAt || "").localeCompare(a.createdAt || ""));
+  const box = document.getElementById("recordList");
+  if(!list.length){
+    box.innerHTML = `<div class="empty">暂无记录</div>`;
+    return;
+  }
+  box.innerHTML = list.map(item => {
+    const isOut = item.type === "out";
+    const title = isOut
+      ? `${escapeHtml(item.person || "未填写")} 领取 ${escapeHtml(item.materialName)} ${toInt(item.qty)} 包`
+      : `${escapeHtml(item.person || "入库")} 补充 ${escapeHtml(item.materialName)} ${toInt(item.qty)} 包`;
+    return `
+      <article class="record">
+        <div class="record-head">
+          <div class="record-title">${title}</div>
+          <span class="tag ${isOut ? "out" : "in"}">${isOut ? "领取" : "入库"}</span>
+        </div>
+        <div class="record-meta">
+          ${escapeHtml(item.date)}　登记前 ${toInt(item.before)} 包 / 登记后 ${toInt(item.after)} 包
+          ${item.note ? `<br>备注：${escapeHtml(item.note)}` : ""}
+        </div>
+        <div class="record-bottom">
+          <div class="after">剩余 ${toInt(item.after)} 包</div>
+          <button class="undo" type="button" data-undo="${item.id}">撤回</button>
+        </div>
+      </article>
+    `;
+  }).join("");
+}
+
+function escapeHtml(value){
+  return String(value ?? "")
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
+}
+
+function csvCell(value){
+  const text = String(value ?? "").replaceAll('"', '""');
+  return `"${text}"`;
+}
+
+function exportCsv(){
+  if(!state.records.length){
+    showToast("还没有可导出的记录");
+    return;
+  }
+  const header = ["日期","类型","姓名/经手人","型号","包数","登记前","登记后","备注","登记时间"];
+  const rows = state.records
+    .slice()
+    .sort((a,b) => (a.createdAt || "").localeCompare(b.createdAt || ""))
+    .map(item => [
+      item.date,
+      item.type === "out" ? "领取" : "入库",
+      item.person || "",
+      item.materialName,
+      item.qty,
+      item.before,
+      item.after,
+      item.note || "",
+      item.createdAt || ""
+    ]);
+  const csv = [header, ...rows].map(row => row.map(csvCell).join(",")).join("\n");
+  const blob = new Blob(["\ufeff" + csv], { type: "text/csv;charset=utf-8" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = `JET物料登记-${today()}.csv`;
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+document.getElementById("outDate").value = today();
+document.getElementById("inDate").value = today();
+
+document.querySelectorAll(".seg button").forEach(btn => {
+  btn.addEventListener("click", () => {
+    document.querySelectorAll(".seg button").forEach(item => item.classList.remove("active"));
+    document.querySelectorAll(".view").forEach(item => item.classList.remove("active"));
+    btn.classList.add("active");
+    document.getElementById(btn.dataset.view).classList.add("active");
+  });
+});
+
+document.getElementById("outForm").addEventListener("submit", event => {
+  event.preventDefault();
+  const date = document.getElementById("outDate").value || today();
+  const person = document.getElementById("outName").value.trim();
+  const material = getMaterial(document.getElementById("outMaterial").value);
+  const qty = toInt(document.getElementById("outQty").value);
+  const note = document.getElementById("outNote").value.trim();
+  if(!person || !material || qty <= 0) return showToast("请把领取信息填完整");
+  if(qty > toInt(material.stock)) return showToast("库存不够，先补充入库");
+  const before = toInt(material.stock);
+  const after = before - qty;
+  material.stock = after;
+  addPerson(person);
+  state.records.push({
+    id:newId(),
+    type:"out",
+    date,
+    person,
+    materialId:material.id,
+    materialName:material.name,
+    qty,
+    before,
+    after,
+    note,
+    createdAt:new Date().toISOString()
+  });
+  saveState();
+  event.target.reset();
+  document.getElementById("outDate").value = today();
+  render();
+  showToast("领取登记已保存");
+});
+
+document.getElementById("inForm").addEventListener("submit", event => {
+  event.preventDefault();
+  const date = document.getElementById("inDate").value || today();
+  const person = document.getElementById("inName").value.trim();
+  const material = getMaterial(document.getElementById("inMaterial").value);
+  const qty = toInt(document.getElementById("inQty").value);
+  const note = document.getElementById("inNote").value.trim();
+  if(!material || qty <= 0) return showToast("请把入库信息填完整");
+  const before = toInt(material.stock);
+  const after = before + qty;
+  material.stock = after;
+  if(person) addPerson(person);
+  state.records.push({
+    id:newId(),
+    type:"in",
+    date,
+    person,
+    materialId:material.id,
+    materialName:material.name,
+    qty,
+    before,
+    after,
+    note,
+    createdAt:new Date().toISOString()
+  });
+  saveState();
+  event.target.reset();
+  document.getElementById("inDate").value = today();
+  render();
+  showToast("入库登记已保存");
+});
+
+document.getElementById("materialForm").addEventListener("submit", event => {
+  event.preventDefault();
+  const name = document.getElementById("newMaterialName").value.trim();
+  const stock = toInt(document.getElementById("newMaterialStock").value);
+  const low = toInt(document.getElementById("newMaterialLow").value || 10);
+  if(!name) return showToast("请输入型号名称");
+  if(state.materials.some(item => item.name === name)) return showToast("这个型号已经存在");
+  state.materials.push({ id:newId(), name, stock, low });
+  if(stock > 0){
+    state.records.push({
+      id:newId(),
+      type:"in",
+      date:today(),
+      person:"",
+      materialId:state.materials[state.materials.length - 1].id,
+      materialName:name,
+      qty:stock,
+      before:0,
+      after:stock,
+      note:"新增型号初始库存",
+      createdAt:new Date().toISOString()
+    });
+  }
+  saveState();
+  document.getElementById("newMaterialName").value = "";
+  document.getElementById("newMaterialStock").value = "";
+  document.getElementById("newMaterialLow").value = "10";
+  render();
+  showToast("型号已添加");
+});
+
+document.getElementById("addPersonBtn").addEventListener("click", () => {
+  const input = document.getElementById("newPersonName");
+  if(addPerson(input.value)){
+    saveState();
+    input.value = "";
+    renderPeople();
+    showToast("人员已添加");
+  }else{
+    showToast("请输入新的人员姓名");
+  }
+});
+
+document.getElementById("recordList").addEventListener("click", event => {
+  const btn = event.target.closest("[data-undo]");
+  if(!btn) return;
+  const record = state.records.find(item => item.id === btn.dataset.undo);
+  if(!record) return;
+  if(!confirm("确定撤回这条登记吗？库存会同步恢复。")) return;
+  const material = getMaterial(record.materialId) || state.materials.find(item => item.name === record.materialName);
+  if(material){
+    if(record.type === "out"){
+      material.stock = toInt(material.stock) + toInt(record.qty);
+    }else{
+      const next = toInt(material.stock) - toInt(record.qty);
+      if(next < 0) return showToast("当前库存不足，不能撤回这条入库");
+      material.stock = next;
+    }
+  }
+  state.records = state.records.filter(item => item.id !== record.id);
+  saveState();
+  render();
+  showToast("已撤回");
+});
+
+document.getElementById("searchText").addEventListener("input", renderRecords);
+document.getElementById("typeFilter").addEventListener("change", renderRecords);
+document.getElementById("exportBtn").addEventListener("click", exportCsv);
+
+render();
+</script>
+</body>
+</html>
