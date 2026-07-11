@@ -1,1 +1,1 @@
-.scene-bg{z-index:0!important}.screen{z-index:1}.modal-layer{z-index:40}.transition{z-index:60}
+.scene-bg{z-index:0!important;opacity:1!important;background-image:url("assets/home-menu.jpg?v=20260711-4")!important;background-size:cover!important;background-position:center!important;background-repeat:no-repeat!important}.screen{z-index:1}.modal-layer{z-index:40}.transition{z-index:60}
