@@ -1,45 +1,8 @@
 const screens = [...document.querySelectorAll('.screen')];
-const sceneBg = document.querySelector('.scene-bg');
 const settingsModal = document.getElementById('settingsModal');
 const transition = document.getElementById('transition');
 const volumeInput = document.getElementById('volume');
 const STORAGE_KEY = 'chengshang-settings-v1';
-
-async function loadHomeArtwork() {
-  try {
-    const paths = Array.from({ length: 8 }, (_, index) => `assets/home-bg/part${index}.txt`);
-    const parts = await Promise.all(paths.map(async path => {
-      const response = await fetch(path, { cache: 'force-cache' });
-      if (!response.ok) throw new Error(`无法加载 ${path}`);
-      return (await response.text()).trim();
-    }));
-
-    const binary = atob(parts.join(''));
-    const bytes = new Uint8Array(binary.length);
-    for (let index = 0; index < binary.length; index += 1) {
-      bytes[index] = binary.charCodeAt(index);
-    }
-
-    const imageUrl = URL.createObjectURL(new Blob([bytes], { type: 'image/jpeg' }));
-    const image = new Image();
-
-    image.onload = () => {
-      sceneBg.style.backgroundImage = `url("${imageUrl}")`;
-      sceneBg.classList.add('ready');
-    };
-
-    image.onerror = () => {
-      URL.revokeObjectURL(imageUrl);
-      console.error('首页视觉图解码失败');
-    };
-
-    image.src = imageUrl;
-  } catch (error) {
-    console.error('首页视觉图加载失败：', error);
-  }
-}
-
-loadHomeArtwork();
 
 const defaults = {
   music: false,
