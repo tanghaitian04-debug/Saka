@@ -5,33 +5,18 @@
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
   <meta name="theme-color" content="#080808">
   <title>城殇</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css?v=20260711-2">
 </head>
 <body>
   <main class="game-shell" id="gameShell">
-    <div class="scene-bg" aria-hidden="true">
-      <div class="ruin-left"></div>
-      <div class="ruin-right"></div>
-      <div class="street"></div>
-      <div class="flag"><i></i></div>
-      <div class="crowd"></div>
-    </div>
-    <div class="smoke smoke-a" aria-hidden="true"></div>
-    <div class="smoke smoke-b" aria-hidden="true"></div>
-    <div class="grain" aria-hidden="true"></div>
+    <div class="scene-bg" aria-hidden="true"></div>
 
     <section class="screen home-screen active" id="homeScreen">
-      <header class="logo-wrap" aria-label="城殇">
-        <div class="logo-smoke" aria-hidden="true"></div>
-        <div class="logo-slash" aria-hidden="true"></div>
-        <h1 class="stone-logo"><span>城</span><span>殇</span></h1>
-      </header>
-
       <nav class="main-menu" aria-label="主菜单">
-        <button class="game-btn primary" data-action="start"><span>开始游戏</span></button>
-        <button class="game-btn" data-screen="storyScreen"><span>故事线</span></button>
-        <button class="game-btn" data-screen="memoryScreen"><span>记忆碎片</span></button>
-        <button class="game-btn" data-action="settings"><span>游戏设置</span></button>
+        <button class="game-btn primary" data-action="start" aria-label="开始游戏"><span>开始游戏</span></button>
+        <button class="game-btn" data-screen="storyScreen" aria-label="故事线"><span>故事线</span></button>
+        <button class="game-btn" data-screen="memoryScreen" aria-label="记忆碎片"><span>记忆碎片</span></button>
+        <button class="game-btn" data-action="settings" aria-label="游戏设置"><span>游戏设置</span></button>
       </nav>
     </section>
 
@@ -79,6 +64,6 @@
 
     <div class="transition" id="transition"><span>故事即将开始……</span></div>
   </main>
-  <script src="script.js"></script>
+  <script src="script.js?v=20260711-2"></script>
 </body>
 </html>
