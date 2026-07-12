@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 960" role="img" aria-label="1937年铁路车票">
+  <rect width="720" height="960" fill="#292a27"/><path d="M91 260l545-51 48 437-549 62z" fill="#b9aa89" stroke="#4c473a" stroke-width="10"/>
+  <path d="M208 252l45 425M528 221l44 423" stroke="#665d4d" stroke-width="5" stroke-dasharray="14 9"/>
+  <g fill="#30312c" font-family="STSong,serif"><text x="272" y="342" font-size="42" transform="rotate(-5 272 342)">沪宁铁路车票</text><text x="287" y="416" font-size="28" transform="rotate(-5 287 416)">日期　民国二十六年八月</text><text x="304" y="493" font-size="32" transform="rotate(-5 304 493)">起点　上海北站</text><text x="320" y="566" font-size="32" transform="rotate(-5 320 566)">终点　＿＿＿＿</text></g>
+  <circle cx="172" cy="506" r="49" fill="none" stroke="#79382f" stroke-width="8" opacity=".7"/>
+</svg>

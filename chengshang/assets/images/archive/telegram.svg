@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 960" role="img" aria-label="战时调度电报">
+  <rect width="720" height="960" fill="#2a2a27"/><path d="M72 105l575-29 28 770-570 52z" fill="#c4b89b" stroke="#514b3e" stroke-width="9"/>
+  <g fill="#34332d" font-family="STSong,serif"><text x="237" y="174" font-size="46">电　报</text><text x="130" y="250" font-size="27">收报：北站临时调度</text><text x="125" y="310" font-size="27">时间：八月二十二日</text><text x="120" y="390" font-size="25">侧线可用至明晨六时</text><text x="116" y="448" font-size="25">伤员车厢两节　切勿超载</text><text x="112" y="506" font-size="25">回令：两短一长</text></g>
+  <g stroke="#6c6453" stroke-width="4"><path d="M110 590h510M108 648h510M106 706h510M104 764h510"/></g>
+  <circle cx="536" cy="728" r="73" fill="none" stroke="#80382f" stroke-width="9" opacity=".68"/>
+</svg>

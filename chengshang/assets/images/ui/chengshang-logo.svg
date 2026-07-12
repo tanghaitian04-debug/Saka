@@ -1,0 +1,111 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="430" viewBox="0 0 1200 430" role="img" aria-labelledby="title desc">
+  <title id="title">城殇</title>
+  <desc id="desc">由旧城砖、残墙、断梁和破损屋檐构成的城殇二字</desc>
+  <defs>
+    <!-- 准确字形只负责限定建筑结构的整体轮廓，画面主体由下方砖块与梁体构成。 -->
+    <text id="glyph" x="600" y="330" text-anchor="middle"
+      font-family="STHeiti, Heiti SC, PingFang SC, Microsoft YaHei, sans-serif"
+      font-size="342" font-weight="900" letter-spacing="-28">城殇</text>
+
+    <clipPath id="glyphClip"><use href="#glyph"/></clipPath>
+
+    <mask id="crumbleMask">
+      <rect width="1200" height="430" fill="#fff"/>
+      <!-- 缺口都咬合在笔画边缘，不产生漂浮碎块。 -->
+      <g fill="#000">
+        <path d="M146 87l29-10 24 13-6 25-37 6-17-15zM296 51l28 8 8 28-19 17-29-15z"/>
+        <path d="M471 312l34-18 27 19-9 33-43 8-18-21zM628 62l31-6 22 24-10 27-38 1z"/>
+        <path d="M867 315l34-20 33 15-4 35-46 14-27-22zM1031 94l29-8 22 26-14 28-38-6z"/>
+        <circle cx="242" cy="263" r="11"/><circle cx="407" cy="118" r="9"/>
+        <circle cx="751" cy="184" r="10"/><circle cx="965" cy="248" r="12"/>
+      </g>
+    </mask>
+
+    <!-- 每块砖均有独立边界，不是连续木纹或贴图。 -->
+    <pattern id="masonry" width="104" height="58" patternUnits="userSpaceOnUse">
+      <rect width="104" height="58" fill="#171a1a"/>
+      <g stroke="#171918" stroke-width="4">
+        <path d="M2 2h48v25H2z" fill="#6f706a"/>
+        <path d="M52 2h50v25H52z" fill="#4e514e"/>
+        <path d="M2 29h27v27H2z" fill="#555852"/>
+        <path d="M31 29h50v27H31z" fill="#77766d"/>
+        <path d="M83 29h19v27H83z" fill="#414441"/>
+      </g>
+      <path d="M8 8h29M58 9h33M38 36h31" stroke="#a6a398" stroke-width="2" opacity=".22"/>
+    </pattern>
+
+    <linearGradient id="beam" x1="0" x2="1" y1="0" y2="1">
+      <stop stop-color="#5a4938"/>
+      <stop offset=".55" stop-color="#332920"/>
+      <stop offset="1" stop-color="#171513"/>
+    </linearGradient>
+
+    <filter id="depth" x="-12%" y="-18%" width="124%" height="150%">
+      <feTurbulence type="fractalNoise" baseFrequency=".018 .09" numOctaves="2" seed="23" result="rough"/>
+      <feDisplacementMap in="SourceGraphic" in2="rough" scale="3.6" result="broken"/>
+      <feDropShadow in="broken" dx="0" dy="13" stdDeviation="8" flood-color="#050606" flood-opacity=".9"/>
+    </filter>
+
+    <filter id="ember" x="-300%" y="-300%" width="700%" height="700%">
+      <feGaussianBlur stdDeviation="3" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <g mask="url(#crumbleMask)" filter="url(#depth)">
+    <!-- 清晰的砖墙笔画主体。 -->
+    <use href="#glyph" fill="url(#masonry)" stroke="#151817" stroke-width="12" stroke-linejoin="bevel"/>
+
+    <g clip-path="url(#glyphClip)">
+      <!-- 断裂木梁作为承重结构穿过字形，而不是表面纹理。 -->
+      <g fill="url(#beam)" stroke="#161411" stroke-width="5">
+        <path d="M116 184l331-75 12 31-337 82z"/>
+        <path d="M322 73l29-8 87 307-31 9z"/>
+        <path d="M574 126l350 103-12 35-351-108z"/>
+        <path d="M774 62l31 5-58 319-34-7z"/>
+        <path d="M863 296l222-75 13 36-226 79z"/>
+      </g>
+
+      <!-- 断墙裂缝沿砖缝展开。 -->
+      <g fill="none" stroke="#0b0d0c" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M170 75l42 45-20 34 48 36-28 55 39 49" stroke-width="9"/>
+        <path d="M365 72l-20 48 34 36-41 42 30 55-17 72" stroke-width="8"/>
+        <path d="M548 88l-39 47 34 33-25 54 43 43-20 73" stroke-width="9"/>
+        <path d="M705 72l35 46-29 42 43 35-24 58 37 69" stroke-width="8"/>
+        <path d="M891 68l-25 51 37 36-34 51 47 39-29 82" stroke-width="9"/>
+        <path d="M1050 84l-39 43 33 39-28 49 42 43-19 75" stroke-width="8"/>
+      </g>
+
+      <!-- 少量裸露钢筋，均从断墙内部伸出。 -->
+      <g fill="none" stroke="#776b5a" stroke-width="4" opacity=".75">
+        <path d="M245 36v96m13-91v78M633 38v93m14-87v77M1015 43v91m13-86v74"/>
+      </g>
+    </g>
+  </g>
+
+  <!-- 残破屋檐贴合在两个字的顶部，瓦片彼此相连。 -->
+  <g fill="url(#masonry)" stroke="#151817" stroke-width="6" filter="url(#depth)">
+    <path d="M185 92h42l8 78h-48zM354 69h44l10 96h-48z"/>
+    <path d="M712 81h44l-4 82h-48zM934 70h44l-6 92h-47z"/>
+  </g>
+  <g fill="#343936" stroke="#151817" stroke-width="5" filter="url(#depth)">
+    <path d="M131 91l235-54 73 20-10 24-282 56-33-17z"/>
+    <path d="M650 81l258-42 118 33-11 25-342 42-42-19z"/>
+  </g>
+  <g fill="none" stroke="#77766d" stroke-width="8" opacity=".82">
+    <path d="M151 96l33-8m8-2l33-8m8-2l33-8m8-2l33-8m8-2l33-8m328 53l34-6m8-1l34-6m8-1l34-6m8-1l34-6m8-1l34-6"/>
+  </g>
+
+  <!-- 两字之间由一段真正相接的残墙和两根断梁连接。 -->
+  <g filter="url(#depth)">
+    <path d="M499 267l34-24 46 10 32-18 40 20-13 34-51-7-42 21-48-10z"
+      fill="url(#masonry)" stroke="#151817" stroke-width="7"/>
+    <path d="M477 302l193-81" stroke="url(#beam)" stroke-width="22" stroke-linecap="square"/>
+    <path d="M488 299l171-71" stroke="#81715d" stroke-width="4" opacity=".42"/>
+  </g>
+
+  <!-- 极少量暗橙余火，只出现在裂缝内部。 -->
+  <g fill="#9b5727" filter="url(#ember)" opacity=".7">
+    <circle cx="351" cy="254" r="3.2"/><circle cx="746" cy="219" r="3"/>
+  </g>
+</svg>

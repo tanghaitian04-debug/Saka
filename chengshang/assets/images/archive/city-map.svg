@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 960" role="img" aria-label="1937年城市道路档案图">
+  <rect width="720" height="960" fill="#b8aa8c"/>
+  <path d="M0 0h720v960H0z" fill="none" stroke="#403b31" stroke-width="18"/>
+  <g fill="none" stroke="#514b3e" stroke-width="7" opacity=".72">
+    <path d="M65 120c130 55 188 12 302 68s186 7 286 72M38 372c155-64 248 74 401 8s201 5 264 64M92 785c99-91 192-61 293-10s184 31 260-37"/>
+    <path d="M135 50c-8 158 45 255 6 391s17 292 74 452M342 42c32 153-21 302 14 435s-2 265-25 421M572 66c-46 147 7 282-32 421s30 261 62 362"/>
+  </g>
+  <path d="M76 503h568" stroke="#712f28" stroke-width="11" stroke-dasharray="22 13"/>
+  <g fill="#2f312e" font-family="STSong,serif" font-size="27"><text x="78" y="92">城市交通与救护路线图</text><text x="84" y="544">临时转运线</text><text x="485" y="904">档案复绘</text></g>
+  <g fill="#71352e"><circle cx="141" cy="503" r="15"/><circle cx="354" cy="503" r="15"/><circle cx="574" cy="503" r="15"/></g>
+</svg>

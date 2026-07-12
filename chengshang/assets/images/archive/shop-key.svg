@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 960" role="img" aria-label="旧商铺铜钥匙">
+  <rect width="720" height="960" fill="#242522"/><ellipse cx="360" cy="760" rx="235" ry="52" fill="#090a09" opacity=".65"/>
+  <g transform="rotate(-18 360 480)" fill="none" stroke="#897452" stroke-width="38" stroke-linejoin="round">
+    <circle cx="286" cy="256" r="104"/><path d="M350 336l190 330v118h-78v-74h-67v-74h-58"/>
+  </g>
+  <g fill="none" stroke="#c0a77a" stroke-width="7" opacity=".45"><circle cx="286" cy="256" r="78"/><path d="M366 361l153 270"/></g>
+  <text x="360" y="886" fill="#8f8673" font-family="STSong,serif" font-size="30" text-anchor="middle">闸北铺门钥匙</text>
+</svg>

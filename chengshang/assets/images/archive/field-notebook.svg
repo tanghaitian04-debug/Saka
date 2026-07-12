@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 960" role="img" aria-label="现场核实笔记">
+  <rect width="720" height="960" fill="#242522"/><rect x="106" y="74" width="508" height="820" rx="14" fill="#4a493f" stroke="#171918" stroke-width="12"/><rect x="151" y="96" width="428" height="773" fill="#c3b697"/>
+  <g stroke="#6e6654" stroke-width="3" opacity=".55"><path d="M173 230h380M173 291h380M173 352h380M173 413h380M173 474h380M173 535h380M173 596h380M173 657h380M173 718h380"/></g>
+  <g fill="#33332e" font-family="STKaiti,KaiTi,serif"><text x="217" y="172" font-size="40">现场核实笔记</text><text x="184" y="274" font-size="24">时间　地点　目击者</text><text x="184" y="335" font-size="24">同一消息至少两处来源</text><text x="184" y="396" font-size="24">未经核实不得发出</text></g>
+  <path d="M117 136h55M117 222h55M117 308h55M117 394h55M117 480h55M117 566h55M117 652h55M117 738h55" stroke="#9a8f75" stroke-width="10"/>
+</svg>

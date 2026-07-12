@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 960" role="img" aria-label="伤员与失散者名单">
+  <rect width="720" height="960" fill="#242522"/><path d="M76 66h568v834H76z" fill="#c0b394" stroke="#4b473b" stroke-width="9"/>
+  <g stroke="#6f6755" stroke-width="3"><path d="M98 194h524M98 270h524M98 346h524M98 422h524M98 498h524M98 574h524M98 650h524M98 726h524M98 802h524"/><path d="M273 194v608M455 194v608"/></g>
+  <g fill="#34332e" font-family="STSong,serif"><text x="194" y="138" font-size="42">伤员与失散者名单</text><text x="140" y="244" font-size="24">姓名</text><text x="325" y="244" font-size="24">发现地点</text><text x="502" y="244" font-size="24">去向</text></g>
+  <g stroke="#47443a" stroke-width="5" opacity=".65"><path d="M117 319h120m59 0h130m54 0h113M117 395h103m76 0h141m43 0h89M117 471h125m54 0h118m66 0h105M117 547h97m82 0h138m46 0h111"/></g>
+</svg>

@@ -1,70 +1,269 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
-  <meta name="theme-color" content="#080808">
-  <title>城殇</title>
-  <link rel="stylesheet" href="style.css?v=20260711-5">
-  <link rel="stylesheet" href="fix.css?v=20260711-5">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#090a09">
+  <meta name="description" content="《城殇》——一段关于记忆、选择与生存的抗战历史互动叙事">
+  <title>城殇｜历史叙事互动游戏</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <main class="game-shell" id="gameShell">
-    <div class="scene-bg" aria-hidden="true"></div>
+  <div class="scene" aria-hidden="true">
+    <div class="scene__image" id="sceneImage"></div>
+    <div class="scene__shade"></div>
+  </div>
 
-    <section class="screen home-screen active" id="homeScreen">
-      <nav class="main-menu" aria-label="主菜单">
-        <button class="game-btn primary" data-action="start" aria-label="开始游戏"><span>开始游戏</span></button>
-        <button class="game-btn" data-screen="storyScreen" aria-label="故事线"><span>故事线</span></button>
-        <button class="game-btn" data-screen="memoryScreen" aria-label="记忆碎片"><span>记忆碎片</span></button>
-        <button class="game-btn" data-action="settings" aria-label="游戏设置"><span>游戏设置</span></button>
+  <div class="sr-only" id="liveRegion" aria-live="polite" aria-atomic="true"></div>
+
+  <main class="app" id="app">
+    <!-- 主界面：保留原有四个入口。 -->
+    <section class="page page--home is-active" id="homePage" data-page="home" aria-labelledby="gameTitle">
+      <header class="hero">
+        <h1 class="hero__logo-heading" id="gameTitle">
+          <img class="main-logo" src="./assets/images/ui/chengshang-logo.svg" alt="城殇">
+        </h1>
+        <p class="hero__subtitle">一段关于记忆、选择与生存的历史叙事</p>
+      </header>
+
+      <nav class="main-menu" aria-label="游戏主菜单">
+        <button class="menu-button" type="button" data-home-action="start">
+          <span class="menu-button__number">壹</span><span class="menu-button__label">开始游戏</span><span aria-hidden="true">›</span>
+        </button>
+        <button class="menu-button" type="button" data-home-action="story">
+          <span class="menu-button__number">贰</span><span class="menu-button__label">故事线</span><span aria-hidden="true">›</span>
+        </button>
+        <button class="menu-button" type="button" data-home-action="memories">
+          <span class="menu-button__number">叁</span><span class="menu-button__label">记忆碎片</span><span aria-hidden="true">›</span>
+        </button>
+        <button class="menu-button" type="button" data-home-action="settings">
+          <span class="menu-button__number">肆</span><span class="menu-button__label">游戏设置</span><span aria-hidden="true">›</span>
+        </button>
       </nav>
     </section>
 
-    <section class="screen page-screen" id="storyScreen">
-      <div class="page-head">
-        <button class="icon-btn back-btn" aria-label="返回主页">‹</button>
-        <h2>故 事 线</h2>
-        <span></span>
-      </div>
-      <div class="chapter-list">
-        <button class="chapter-card available">
-          <span class="chapter-index">第一篇</span>
-          <strong>南京篇</strong>
-          <small>一九三七 · 可进入</small>
-        </button>
-        <button class="chapter-card locked" disabled><strong>未解锁故事</strong><small>敬请期待</small></button>
-        <button class="chapter-card locked" disabled><strong>未解锁故事</strong><small>敬请期待</small></button>
+    <!-- 主题选择 -->
+    <section class="page page--catalog" id="themePage" data-page="theme" hidden aria-labelledby="themeTitle">
+      <header class="catalog-header">
+        <button class="icon-back" type="button" data-nav="home" aria-label="返回主页">←</button>
+        <div><p>THEATRE OF MEMORY</p><h2 id="themeTitle">选择主题</h2></div>
+      </header>
+      <p class="catalog-intro">历史不会因玩家选择而改写；选择决定你能保护谁、保存什么，以及谁会记得。</p>
+      <div class="theme-grid" id="themeGrid"></div>
+    </section>
+
+    <!-- 八章故事线与解锁状态 -->
+    <section class="page page--catalog" id="chaptersPage" data-page="chapters" hidden aria-labelledby="chaptersTitle">
+      <header class="catalog-header">
+        <button class="icon-back" type="button" data-nav="theme" aria-label="返回主题选择">←</button>
+        <div><p>CHAPTER ARCHIVE</p><h2 id="chaptersTitle">章节选择</h2></div>
+      </header>
+      <div class="chapter-filter" id="chapterFilter" role="tablist" aria-label="主题筛选"></div>
+      <div class="chapter-grid" id="chapterGrid"></div>
+    </section>
+
+    <!-- 身份选择 -->
+    <section class="page page--catalog" id="identityPage" data-page="identity" hidden aria-labelledby="identityTitle">
+      <header class="catalog-header">
+        <button class="icon-back" type="button" data-nav="chapters" aria-label="返回章节选择">←</button>
+        <div><p>ORDINARY LIVES</p><h2 id="identityTitle">选择身份</h2></div>
+      </header>
+      <p class="fiction-notice">本角色为基于历史环境创作的普通人物，不对应或冒充真实历史人物。</p>
+      <div class="identity-grid" id="identityGrid"></div>
+      <aside class="identity-detail" id="identityDetail" hidden>
+        <div id="identityDetailContent"></div>
+        <div class="persona-picker" id="personaPicker" aria-label="选择角色"></div>
+        <button class="primary-action" type="button" id="confirmIdentityButton">进入身份背景序幕</button>
+      </aside>
+    </section>
+
+    <!-- 正式事件游戏界面 -->
+    <section class="page page--game" id="gamePage" data-page="game" hidden aria-label="正式剧情">
+      <div class="game-root" id="gameRoot">
+        <header class="game-hud">
+          <button class="game-menu-button" type="button" id="gameMenuButton" aria-label="打开游戏菜单">☰</button>
+          <div class="event-progress"><span id="eventProgress"></span></div>
+          <div class="hud-stats" id="hudStats"></div>
+        </header>
+
+        <div class="game-visual">
+          <img id="eventImage" alt="" decoding="async">
+          <div class="image-fallback" id="imageFallback" hidden></div>
+          <div class="game-vignette" aria-hidden="true"></div>
+          <div class="event-metadata">
+            <span id="gameStage"></span><span id="gameDate"></span><span id="gameLocation"></span>
+          </div>
+          <div class="event-heading">
+            <small id="eventType"></small><h2 id="eventTitle"></h2>
+          </div>
+        </div>
+
+        <section class="subtitle-panel" id="subtitlePanel" aria-live="polite">
+          <div class="subtitle-speaker"><strong id="subtitleSpeaker"></strong><span id="subtitleRole"></span></div>
+          <p id="subtitleText"></p>
+        </section>
+
+        <section class="event-controls" id="eventControls" aria-label="事件操作"></section>
+
+        <footer class="game-statusline">
+          <span>当前任务：<b id="hudTask">等待任务</b></span>
+          <span id="hudSpecialty"></span>
+        </footer>
       </div>
     </section>
 
-    <section class="screen page-screen" id="memoryScreen">
-      <div class="page-head">
-        <button class="icon-btn back-btn" aria-label="返回主页">‹</button>
-        <h2>记 忆 碎 片</h2>
-        <span></span>
-      </div>
-      <div class="memory-grid">
-        <article class="memory-card"><div>✉</div><strong>一封旧信</strong><small>尚未解锁</small></article>
-        <article class="memory-card"><div>▧</div><strong>褪色照片</strong><small>尚未解锁</small></article>
-        <article class="memory-card"><div>◇</div><strong>随身旧物</strong><small>尚未解锁</small></article>
-        <article class="memory-card"><div>⌁</div><strong>无名证言</strong><small>尚未解锁</small></article>
+    <!-- 章节结局与历史说明 -->
+    <section class="page page--ending" id="endingPage" data-page="ending" hidden aria-labelledby="endingTitle">
+      <div class="ending-shell">
+        <p class="ending-kicker">CHAPTER RECORD</p>
+        <h2 id="endingTitle"></h2>
+        <p class="ending-description" id="endingDescription"></p>
+        <div class="ending-stats" id="endingStats"></div>
+        <section><h3>重要人物去向</h3><div id="endingCharacters"></div></section>
+        <section><h3>保存与遗失</h3><div id="endingItems"></div></section>
+        <section><h3>关键选择</h3><ol id="endingChoices"></ol></section>
+        <section class="history-split">
+          <div><h3>历史事实</h3><p id="historyFact"></p></div>
+          <div><h3>剧情演绎</h3><p id="historyFiction"></p></div>
+        </section>
+        <section><h3>资料来源</h3><ul class="source-list" id="historySources"></ul></section>
+        <div class="ending-actions">
+          <button class="primary-action" type="button" id="continueRecentButton" hidden>从最近存档继续</button>
+          <button type="button" id="replayStageEndingButton" hidden>重玩本阶段</button>
+          <button class="primary-action" type="button" id="nextChapterButton">下一章</button>
+          <button type="button" id="replayChapterButton">重玩本章</button>
+          <button type="button" data-nav="chapters">返回章节选择</button>
+        </div>
       </div>
     </section>
 
-    <div class="modal-layer" id="settingsModal" aria-hidden="true">
-      <section class="settings-panel" role="dialog" aria-modal="true" aria-labelledby="settingsTitle">
-        <h2 id="settingsTitle">游 戏 设 置</h2>
-        <div class="setting-row"><span>背景音乐</span><button class="toggle" data-setting="music" aria-pressed="false"><i></i></button></div>
-        <div class="setting-row"><span>游戏音效</span><button class="toggle on" data-setting="sfx" aria-pressed="true"><i></i></button></div>
-        <div class="setting-row"><span>字幕显示</span><button class="toggle on" data-setting="subtitles" aria-pressed="true"><i></i></button></div>
-        <div class="setting-row volume-row"><label for="volume">音量大小</label><input id="volume" type="range" min="0" max="100" value="70"></div>
-        <button class="game-btn close-settings"><span>返 回</span></button>
-      </section>
-    </div>
-
-    <div class="transition" id="transition"><span>故事即将开始……</span></div>
+    <!-- 记忆碎片收藏 -->
+    <section class="page page--catalog" id="memoriesPage" data-page="memories" hidden aria-labelledby="memoriesTitle">
+      <header class="catalog-header">
+        <button class="icon-back" type="button" data-nav="home" aria-label="返回主页">←</button>
+        <div><p>MEMORY FRAGMENTS</p><h2 id="memoriesTitle">记忆碎片</h2></div>
+      </header>
+      <p class="catalog-intro">被保存的信件、胶卷、名单与旧物会在这里留下可追溯记录。</p>
+      <div class="memory-grid" id="memoryGrid"></div>
+      <section class="source-archive"><h3>已解锁历史资料</h3><div id="sourceArchive"></div></section>
+    </section>
   </main>
-  <script src="script.js?v=20260711-5"></script>
+
+  <footer class="footer" id="globalFooter">
+    <p>本作品为历史教育与纪念性质互动项目</p>
+    <p class="footer__motto">铭记历史，珍爱和平</p>
+    <p>版本 0.3.0</p>
+  </footer>
+
+  <!-- 开始游戏：检查存档后展示。 -->
+  <div class="modal" id="startModal" aria-hidden="true">
+    <div class="modal__backdrop" data-close-modal="startModal"></div>
+    <section class="modal-panel start-panel" role="dialog" aria-modal="true" aria-labelledby="startModalTitle">
+      <p class="modal-kicker">SAVE ARCHIVE</p><h2 id="startModalTitle">开始游戏</h2>
+      <div class="save-summary" id="saveSummary"></div>
+      <div class="modal-actions">
+        <button class="primary-action" type="button" id="continueGameButton">继续游戏</button>
+        <button type="button" id="newGameButton">新游戏</button>
+        <button type="button" id="openChapterSelectButton">章节选择</button>
+        <button type="button" data-close-modal="startModal">取消</button>
+      </div>
+    </section>
+  </div>
+
+  <!-- 游戏内菜单与四个存档位 -->
+  <div class="modal" id="gameMenuModal" aria-hidden="true">
+    <div class="modal__backdrop" data-close-modal="gameMenuModal"></div>
+    <section class="modal-panel game-menu-panel" role="dialog" aria-modal="true" aria-labelledby="gameMenuTitle">
+      <p class="modal-kicker">GAME MENU</p><h2 id="gameMenuTitle">暂停与存档</h2>
+      <div class="save-slots" id="saveSlots"></div>
+      <div class="modal-actions">
+        <button class="primary-action" type="button" data-close-modal="gameMenuModal">继续剧情</button>
+        <button type="button" id="restartStageButton">重玩本阶段</button>
+        <button type="button" id="restartCurrentChapterButton">重玩本章</button>
+        <button type="button" id="quitToChaptersButton">保存并返回章节选择</button>
+      </div>
+    </section>
+  </div>
+
+  <!-- 设置弹窗 -->
+  <div class="modal" id="settingsModal" aria-hidden="true">
+    <div class="modal__backdrop" data-close-modal="settingsModal"></div>
+    <section class="modal-panel settings-panel" role="dialog" aria-modal="true" aria-labelledby="settingsTitle">
+      <p class="modal-kicker">ACCESSIBILITY & AUDIO</p><h2 id="settingsTitle">游戏设置</h2>
+      <div class="settings-grid">
+        <label>背景音乐 <input type="checkbox" id="musicToggle" checked></label>
+        <label>环境与音效 <input type="checkbox" id="soundToggle" checked></label>
+        <label>字幕 <input type="checkbox" id="subtitleToggle" checked></label>
+        <label>逐字显示 <input type="checkbox" id="typewriterToggle" checked></label>
+        <label>自动播放 <input type="checkbox" id="autoplayToggle"></label>
+        <label>高对比模式 <input type="checkbox" id="contrastToggle"></label>
+        <label>关闭画面动态 <input type="checkbox" id="motionToggle"></label>
+        <label>关键选择二次确认 <input type="checkbox" id="confirmChoiceToggle" checked></label>
+        <label class="range-setting">总音量 <input type="range" id="volumeSlider" min="0" max="100" value="60"><output id="volumeValue">60%</output></label>
+        <label class="range-setting">字幕速度 <input type="range" id="subtitleSpeedSlider" min="8" max="60" value="24"><output id="subtitleSpeedValue">中</output></label>
+        <label class="range-setting">字幕字号 <input type="range" id="fontSizeSlider" min="90" max="135" value="100"><output id="fontSizeValue">100%</output></label>
+      </div>
+      <button class="modal-wide-button" type="button" data-close-modal="settingsModal">保存并返回</button>
+    </section>
+  </div>
+
+  <!-- 选择结果、阶段结算与确认对话框。 -->
+  <div class="result-panel" id="resultPanel" hidden role="dialog" aria-modal="true" aria-labelledby="resultTitle">
+    <div class="result-card">
+      <p class="modal-kicker">CONSEQUENCE</p><h2 id="resultTitle"></h2>
+      <p id="resultText"></p><div class="result-changes" id="resultChanges"></div>
+      <button class="primary-action" type="button" id="resultContinue">承担结果并继续</button>
+    </div>
+  </div>
+
+  <div class="modal" id="stageModal" aria-hidden="true">
+    <div class="modal__backdrop"></div>
+    <section class="modal-panel stage-panel" role="dialog" aria-modal="true" aria-labelledby="stageTitle">
+      <p class="modal-kicker">STAGE REPORT</p><h2 id="stageTitle">阶段结算</h2>
+      <div id="stageSummary"></div><button class="primary-action modal-wide-button" type="button" id="stageContinueButton">推进历史时间</button>
+    </section>
+  </div>
+
+  <div class="modal" id="confirmModal" aria-hidden="true">
+    <div class="modal__backdrop"></div>
+    <section class="modal-panel confirm-panel" role="dialog" aria-modal="true" aria-labelledby="confirmTitle">
+      <h2 id="confirmTitle">确认操作</h2><p id="confirmText"></p>
+      <div class="confirm-actions"><button type="button" id="confirmCancel">取消</button><button class="danger-action" type="button" id="confirmAccept">确认</button></div>
+    </section>
+  </div>
+
+  <div class="loading-screen" id="loadingScreen" hidden aria-live="polite">
+    <p>正在整理档案与场景资源</p><div><span id="loadingProgress"></span></div><small id="loadingStatus">0%</small>
+  </div>
+
+  <!-- 仅在 URL 加 #dev 或本地开启开发标志时显示。 -->
+  <aside class="dev-panel" id="devPanel" hidden aria-label="开发调试面板">
+    <button type="button" id="devToggle">开发工具</button>
+    <div class="dev-body">
+      <label>事件ID <input id="devEventId"><button type="button" id="devJump">跳转</button></label>
+      <label>血量 <input id="devHp" type="number" min="0" max="100"><button type="button" id="devSetHp">修改</button></label>
+      <pre id="devState"></pre>
+      <button type="button" id="devUnlockAll">解锁全部章节</button><button type="button" id="devClearSaves">清除存档</button>
+    </div>
+  </aside>
+
+  <script src="assets/data/themes.js"></script>
+  <script src="assets/data/chapters.js"></script>
+  <script src="assets/data/identities.js"></script>
+  <script src="assets/data/characters.js"></script>
+  <script src="assets/data/visual-guides.js"></script>
+  <script src="assets/data/items.js"></script>
+  <script src="assets/data/history-sources.js"></script>
+  <script src="assets/data/endings.js"></script>
+  <script src="assets/data/events/shanghai-ch01.js"></script>
+  <script src="assets/data/events/compact-chapters.js"></script>
+  <script src="js/state-manager.js"></script>
+  <script src="js/save-system.js"></script>
+  <script src="js/audio-manager.js"></script>
+  <script src="js/subtitle-manager.js"></script>
+  <script src="js/history-sources.js"></script>
+  <script src="js/event-renderer.js"></script>
+  <script src="js/game-engine.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>

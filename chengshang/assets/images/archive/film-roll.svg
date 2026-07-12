@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 960" role="img" aria-label="未冲洗胶卷">
+  <rect width="720" height="960" fill="#171918"/>
+  <g transform="translate(360 430)" fill="#292c2a" stroke="#737269" stroke-width="14"><circle r="226"/><circle r="72" fill="#111312"/><circle cx="0" cy="-139" r="48"/><circle cx="132" cy="-44" r="48"/><circle cx="82" cy="112" r="48"/><circle cx="-82" cy="112" r="48"/><circle cx="-132" cy="-44" r="48"/></g>
+  <path d="M535 471c83 41 105 136 63 209s-25 143 50 189" fill="none" stroke="#4e514d" stroke-width="42"/>
+  <g fill="#9a9587" font-family="STSong,serif" text-anchor="middle"><text x="360" y="790" font-size="36">未冲洗胶卷</text><text x="360" y="843" font-size="24">避光 · 防潮 · 待送出</text></g>
+</svg>

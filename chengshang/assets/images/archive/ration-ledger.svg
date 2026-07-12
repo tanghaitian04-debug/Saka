@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 960" role="img" aria-label="战时物资登记簿">
+  <rect width="720" height="960" fill="#837a65"/><rect x="48" y="42" width="624" height="876" rx="8" fill="#c3b596" stroke="#36342e" stroke-width="9"/>
+  <path d="M132 43v874M51 178h618M51 270h618M51 362h618M51 454h618M51 546h618M51 638h618M51 730h618M51 822h618" stroke="#665f50" stroke-width="3"/>
+  <path d="M322 179v641M505 179v641" stroke="#665f50" stroke-width="3"/>
+  <g fill="#33332f" font-family="STSong,serif"><text x="225" y="125" font-size="42">物资登记簿</text><text x="158" y="235" font-size="24">药品</text><text x="349" y="235" font-size="24">口粮</text><text x="535" y="235" font-size="24">运输</text></g>
+  <g stroke="#4b4439" stroke-width="5" opacity=".75"><path d="M153 319h105m84 0h110m78 0h96M153 411h76m113 0h85m103 0h63M153 503h94m95 0h104m84 0h81M153 595h108m81 0h75m113 0h101"/></g>
+</svg>

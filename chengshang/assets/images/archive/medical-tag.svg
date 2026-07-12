@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 960" role="img" aria-label="伤员分诊牌">
+  <rect width="720" height="960" fill="#353633"/><path d="M113 134l494 22-29 665-486-41z" fill="#b8aa8b" stroke="#49463c" stroke-width="10"/>
+  <circle cx="360" cy="174" r="25" fill="#343631"/><path d="M360 0v148" stroke="#6f6552" stroke-width="12"/>
+  <g fill="#34332d" font-family="STSong,serif"><text x="170" y="263" font-size="42">伤员分诊牌</text><text x="155" y="354" font-size="29">发现时间：＿＿＿＿</text><text x="150" y="428" font-size="29">伤　　势：＿＿＿＿</text><text x="146" y="502" font-size="29">处　　置：＿＿＿＿</text><text x="141" y="576" font-size="29">转运去向：＿＿＿＿</text></g>
+  <path d="M139 650h398M136 704h398" stroke="#685f4e" stroke-width="4"/>
+  <circle cx="495" cy="702" r="69" fill="none" stroke="#7f332c" stroke-width="8" opacity=".7"/>
+</svg>
