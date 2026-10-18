@@ -9,12 +9,12 @@ Passed in GitHub Actions:
 - Android Lint and six JVM policy tests.
 - Android API 35 x86_64 emulator: Python + SSL + yt-dlp imports and QuickJS execution.
 - Android emulator: native FFmpeg execution, separate audio/video merge with both tracks inspected using MediaExtractor.
-- Android emulator: MediaStore Downloads publication, byte-size readback, IS_PENDING cleared and cancelled-save cleanup.
+- Android emulator: MediaStore Downloads publication, byte-size readback, IS_PENDING cleared and cancelled-save exception handling.
 - Host Python policy/dependency tests.
 
-Follow-up changes add real HTTP fixture transfer/cancellation coverage (14 host Python tests total),
+Follow-up changes add real HTTP fixture transfer/cancellation coverage (15 host Python tests total),
 UI activity-launch smoke test, EJS package-data/runtime detection checks, source SHA256 verification,
-bounded input length, improved Chinese errors and latest-task selection.
+bounded input length, improved Chinese errors and latest-task selection. Unknown codec metadata is treated as unknown, rather than an absent audio track; required FFmpeg track maps still validate final output.
 The follow-up CI run must pass before delivering its APK as the current build.
 
 NOT VERIFIED:

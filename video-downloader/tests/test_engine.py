@@ -29,6 +29,9 @@ class PolicyTests(unittest.TestCase):
         self.assertEqual(engine.choices(info)[0]['audio'], '140')
     def test_progressive_format_needs_no_audio(self):
         self.assertEqual(engine.choices({'formats': [fmt(acodec='mp4a')]})[0]['audio'], '')
+    def test_unknown_codec_progressive_mp4_is_not_misclassified_as_video_only(self):
+        option = engine.choices({'formats': [fmt(vcodec=None, acodec=None)]})[0]
+        self.assertEqual(option['audio'], '')
     def test_drm_never_selected(self):
         with self.assertRaises(ValueError): engine.choices({'formats': [fmt(acodec='aac', has_drm=True)]})
         with self.assertRaises(ValueError): engine.choices({'has_drm': True, 'formats': [fmt(acodec='aac')]})

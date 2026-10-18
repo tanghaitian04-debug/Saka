@@ -37,9 +37,11 @@ def choices(info):
     best_audio = max(audio, key=lambda f: f.get('abr') or f.get('tbr') or 0, default=None)
     result = []
     for f in formats:
-        if f.get('ext') != 'mp4' or f.get('vcodec') in (None, 'none'):
+        if f.get('ext') != 'mp4' or f.get('vcodec') == 'none':
             continue
-        separate = f.get('acodec') in (None, 'none')
+        # yt-dlp uses explicit 'none' for an absent track; None means unknown.
+        # FFmpeg's mandatory audio/video maps validate unknown progressive files.
+        separate = f.get('acodec') == 'none'
         if separate and best_audio is None:
             continue
         fid = str(f['format_id'])
