@@ -1,27 +1,29 @@
-# Verification status
+# Verification
 
-Initial full CI run: https://github.com/tanghaitian04-debug/Saka/actions/runs/39155696595
-Commit: 83618efe7e470ac3b0aa45c358e0db193fa4b873
+Build commit: fb00503f27f52d47c6f691cd8c0a1cbc0dfca24c
+Successful workflow: https://github.com/tanghaitian04-debug/Saka/actions/runs/39157727183
+Debug APK: https://github.com/tanghaitian04-debug/Saka/actions/runs/39157727183/artifacts/12147397442
+Verification reports and native sources: https://github.com/tanghaitian04-debug/Saka/actions/runs/39157727183/artifacts/12147862404
+Completed: 2026-10-18 UTC / 2026-10-19 Asia/Shanghai.
 
-Passed in GitHub Actions:
-- Android NDK builds of FFmpeg 7.1.3 and QuickJS-NG 0.10.1, arm64-v8a and x86_64.
-- Kotlin/Compose compilation, Debug APK assembly, Android test APK assembly.
-- Android Lint and six JVM policy tests.
-- Android API 35 x86_64 emulator: Python + SSL + yt-dlp imports and QuickJS execution.
-- Android emulator: native FFmpeg execution, separate audio/video merge with both tracks inspected using MediaExtractor.
-- Android emulator: MediaStore Downloads publication, byte-size readback, IS_PENDING cleared and cancelled-save exception handling.
-- Host Python policy/dependency tests.
+## Passed
 
-Follow-up changes add real HTTP fixture transfer/cancellation coverage (15 host Python tests total),
-UI activity-launch smoke test, EJS package-data/runtime detection checks, source SHA256 verification,
-bounded input length, improved Chinese errors and latest-task selection. Unknown codec metadata is treated as unknown, rather than an absent audio track; required FFmpeg track maps still validate final output.
-The follow-up CI run must pass before delivering its APK as the current build.
+- 15 host Python tests: link and DRM policies, MP4 selection including unknown codecs, dependencies/EJS data, real HTTP fixture audio/video transfers, invalid quality and cancellation.
+- Six JVM tests: shared-text links, supported subdomains, URL rejection and safe filenames.
+- Five Android API 35 x86_64 emulator tests: Compose activity/WorkManager startup; Python+SSL+yt-dlp+EJS and QuickJS detection/execution; Android FFmpeg startup; audio/video merge with MediaExtractor and MediaStore Downloads byte-size/pending-flag readback; cancelled-save exception handling.
+- Kotlin/Compose compilation, Debug APK and instrumented test APK assembly, Android Lint.
+- Android NDK 28 builds of FFmpeg 7.1.3 and QuickJS-NG 0.10.1 for arm64-v8a and x86_64, with source SHA256 checks.
+- Codex Cloud independently assembled the APK, passed six JVM tests and Lint, and verified the APK signature.
 
-NOT VERIFIED:
-- Physical arm64 Android device.
-- End-to-end downloads from live YouTube, X, TikTok, Bilibili or Instagram links.
-- Device-specific codecs, OEM background restrictions and Android 16 KB-page runtime.
-- Android API 29 minimum-version runtime. Emulator coverage is API 35 only.
+No post-test application launch is required: the Android test runner may uninstall the target app during cleanup.
 
-No claim of universal platform availability is made. Platform/network/login/region restrictions remain enforced.
-Native ELF LOAD segments are 16 KB aligned; this is a binary inspection, not a 16 KB-device runtime test.
+## Not verified
+
+- Physical arm64 devices and real-world background downloads.
+- Live YouTube, X, TikTok, Bilibili or Instagram downloads. Extractors are integrated; live availability and each format are not guaranteed.
+- OEM restrictions, device codecs and 16 KB-page Android runtime.
+- Minimum Android API 29 runtime; emulator coverage is API 35 only.
+
+Native ELF load segments were inspected for 16 KB alignment; this does not substitute for device runtime testing.
+No DRM override, Cookie import, login/region bypass or private-content access is implemented.
+This is a Debug test build. CI debug signing keys may differ across builds; see README installation notes.
