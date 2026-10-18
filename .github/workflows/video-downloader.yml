@@ -28,6 +28,9 @@ jobs:
         with:
           python-version: '3.13'
       - uses: android-actions/setup-android@v3
+        with:
+          packages: platform-tools
+          log-accepted-android-sdk-licenses: false
       - uses: gradle/actions/setup-gradle@v4
         with:
           gradle-version: '8.13'
@@ -68,6 +71,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
+          include-hidden-files: true
           name: Video-Downloader-Verification
           path: |
             video-downloader/app/build/reports/
