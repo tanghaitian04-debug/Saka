@@ -13,7 +13,7 @@ def validate_url(value):
     value = value.strip()
     p = urlparse(value)
     host = (p.hostname or '').lower()
-    if (p.scheme != 'https' or p.username or p.password or p.port not in (None, 443)
+    if (len(value) > 2048 or p.scheme != 'https' or p.username or p.password or p.port not in (None, 443)
             or not any(host == h or host.endswith('.' + h) for h in HOSTS)):
         raise ValueError('请粘贴支持平台的 HTTPS 公开视频链接')
     return value
@@ -95,7 +95,7 @@ def download(url, video, audio, directory, qjs, cache, callback):
             if callback.cancelled():
                 raise DownloadError('下载已取消')
             total = d.get('total_bytes') or d.get('total_bytes_estimate') or 0
-            fraction = min(1.0, d.get('downloaded_bytes', 0) / total) if total else 0
+            fraction = min(1.0, d.get('downloaded_bytes', 0) / total) if total else (1.0 if d.get('status') == 'finished' else 0)
             callback.progress(int(90 * (i + fraction) / len(ids)), '正在下载视频' if i == 0 else '正在下载音轨')
         current = dict(opts, format=fid, outtmpl=os.path.join(directory, f'track{i}.%(ext)s'),
                        progress_hooks=[hook], postprocessors=[])
@@ -123,6 +123,12 @@ def self_test(qjs, cache):
     import yt_dlp_ejs
     import requests
     from yt_dlp.version import __version__
+    from yt_dlp.utils._jsruntime import QuickJsRuntime
+    from yt_dlp.dependencies import yt_dlp_ejs as ejs_available
+    import yt_dlp_ejs.yt.solver as solver
+    assert ejs_available and len(solver.core()) > 1000 and len(solver.lib()) > 1000
+    runtime = QuickJsRuntime(qjs).info
+    assert runtime is not None and runtime.supported
     assert ssl.create_default_context().get_ca_certs()
     assert len(list(yt_dlp.list_extractor_classes())) > 100
     result = subprocess.run([qjs, '-e', 'console.log(6*7)'], capture_output=True, text=True, timeout=15)

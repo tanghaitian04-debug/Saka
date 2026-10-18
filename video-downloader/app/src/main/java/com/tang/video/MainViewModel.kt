@@ -23,7 +23,7 @@ class MainViewModel(app: Application) : AndroidViewModel(app) {
         refresh()
         viewModelScope.launch {
             manager.getWorkInfosForUniqueWorkFlow(DownloadWorker.NAME).collect { items ->
-                _work.value = items.firstOrNull { !it.state.isFinished } ?: items.maxByOrNull { it.runAttemptCount }
+                _work.value = items.firstOrNull { !it.state.isFinished } ?: items.maxByOrNull { info -> info.tags.firstOrNull { it.startsWith("created:") }?.substringAfter(":")?.toLongOrNull() ?: 0L }
                 refresh()
             }
         }
@@ -37,7 +37,7 @@ class MainViewModel(app: Application) : AndroidViewModel(app) {
             try {
                 val result = withContext(Dispatchers.IO) { Engine.inspect(getApplication(), url) }
                 if (_input.value == original) _video.value = result
-            } catch (e: Exception) { if (_input.value == original) _message.value = (e.message ?: "解析失败").takeLast(1600) }
+            } catch (e: Exception) { if (_input.value == original) _message.value = ErrorMessages.describe(e) }
             finally { _loading.value = false }
         }
     }
@@ -46,7 +46,7 @@ class MainViewModel(app: Application) : AndroidViewModel(app) {
         val request = OneTimeWorkRequestBuilder<DownloadWorker>()
             .setInputData(workDataOf("url" to v.url, "title" to v.title.take(500), "video" to q.video, "audio" to q.audio))
             .setConstraints(Constraints.Builder().setRequiredNetworkType(NetworkType.CONNECTED).build())
-            .keepResultsForAtLeast(1, TimeUnit.DAYS).build()
+            .addTag("created:${System.currentTimeMillis()}").keepResultsForAtLeast(1, TimeUnit.DAYS).build()
         manager.enqueueUniqueWork(DownloadWorker.NAME, ExistingWorkPolicy.KEEP, request)
     }
     fun cancel() { manager.cancelUniqueWork(DownloadWorker.NAME) }

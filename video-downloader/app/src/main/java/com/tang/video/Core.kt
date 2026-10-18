@@ -23,7 +23,7 @@ object LinkPolicy {
             ?.trimEnd('.', ',', '，', '。', ')', '）') ?: throw IllegalArgumentException("请粘贴 HTTPS 视频链接")
         val uri = URI(value)
         val host = uri.host?.lowercase() ?: ""
-        require(uri.scheme.equals("https", true) && uri.userInfo == null && uri.port in listOf(-1,443) && hosts.any { host == it || host.endsWith(".$it") }) { "暂不支持此平台，请粘贴公开视频链接" }
+        require(value.length <= 2048 && uri.scheme.equals("https", true) && uri.userInfo == null && uri.port in listOf(-1,443) && hosts.any { host == it || host.endsWith(".$it") }) { "暂不支持此平台，请粘贴公开视频链接" }
         return value
     }
     fun filename(title: String): String = title.replace(Regex("[\\p{Cntrl}/\\\\:*?\"<>|]"), "_").take(90).trim().ifEmpty { "视频" } + ".mp4"
@@ -56,4 +56,19 @@ class HistoryStore(context: Context) {
         check(prefs.edit().putString("items", arr.toString()).commit()) { "下载历史保存失败" }
     }
     companion object { private val lock = Any() }
+}
+
+object ErrorMessages {
+    fun describe(error: Exception): String {
+        val detail = (error.message ?: "未知错误").takeLast(1200)
+        val hint = when {
+            detail.contains("403") || detail.contains("Sign in", true) || detail.contains("login", true) ->
+                "平台拒绝访问或要求登录，无法下载此视频。"
+            detail.contains("timed out", true) || detail.contains("Unable to download", true) ->
+                "网络连接失败，请检查手机网络及该平台是否可访问。"
+            detail.contains("No space left", true) -> "手机可用空间不足。"
+            else -> "操作未完成，请查看以下原因。"
+        }
+        return hint + "\n" + detail
+    }
 }

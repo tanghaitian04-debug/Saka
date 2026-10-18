@@ -58,8 +58,8 @@ class DownloadWorker(context: Context, params: WorkerParameters) : Worker(contex
             return Result.success(workDataOf("phase" to "下载完成", "uri" to savedUri.toString()))
         } catch (e: Exception) {
             savedUri?.let { applicationContext.contentResolver.delete(it, null, null) }
-            val message = if (isStopped) "下载已取消" else (e.message ?: "下载失败").takeLast(1800)
-            HistoryStore(applicationContext).add(History(title, "", System.currentTimeMillis(), if (isStopped) "已取消" else "失败", message))
+            val message = if (isStopped) "下载已取消" else ErrorMessages.describe(e)
+            runCatching { HistoryStore(applicationContext).add(History(title, "", System.currentTimeMillis(), if (isStopped) "已取消" else "失败", message)) }
             return Result.failure(workDataOf("phase" to message))
         } finally { folder.deleteRecursively() }
     }

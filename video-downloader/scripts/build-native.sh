@@ -11,13 +11,14 @@ mkdir -p "$root/src"
 if [ ! -d "$root/src/ffmpeg" ]; then
   curl -fL --retry 3 https://ffmpeg.org/releases/ffmpeg-7.1.3.tar.xz -o "$root/ffmpeg.tar.xz"
   mkdir -p "$root/src/ffmpeg"
-  tar -xJf "$root/ffmpeg.tar.xz" --strip-components=1 -C "$root/src/ffmpeg"
+  tar --no-same-owner -xJf "$root/ffmpeg.tar.xz" --strip-components=1 -C "$root/src/ffmpeg"
 fi
 if [ ! -d "$root/src/quickjs" ]; then
   curl -fL --retry 3 https://github.com/quickjs-ng/quickjs/archive/refs/tags/v0.10.1.tar.gz -o "$root/quickjs.tar.gz"
   mkdir -p "$root/src/quickjs"
-  tar -xzf "$root/quickjs.tar.gz" --strip-components=1 -C "$root/src/quickjs"
+  tar --no-same-owner -xzf "$root/quickjs.tar.gz" --strip-components=1 -C "$root/src/quickjs"
 fi
+printf '%s  %s\n' 'f0bf043299db9e3caacb435a712fc541fbb07df613c4b893e8b77e67baf3adbe' "$root/ffmpeg.tar.xz" '4e917eea3bb6051a0551fdd3aac45199ff705fa08920c15b824a08c5fbb032e4' "$root/quickjs.tar.gz" | sha256sum --check
 sha256sum "$root/ffmpeg.tar.xz" "$root/quickjs.tar.gz" > "$root/SOURCE_SHA256.txt"
 for abi in arm64-v8a x86_64; do
   if [ "$abi" = arm64-v8a ]; then triple=aarch64-linux-android; arch=aarch64; cpu=armv8-a

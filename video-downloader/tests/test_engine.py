@@ -49,6 +49,9 @@ class PolicyTests(unittest.TestCase):
         self.assertNotIn('cookiefile', opts)
     def test_real_python_dependencies_import(self):
         import yt_dlp, requests, yt_dlp_ejs
+        import yt_dlp_ejs.yt.solver as solver
+        self.assertGreater(len(solver.core()), 1000)
+        self.assertGreater(len(solver.lib()), 1000)
         self.assertGreater(len(list(yt_dlp.list_extractor_classes())), 100)
         self.assertTrue(ssl.create_default_context().get_ca_certs())
         self.assertEqual(yt_dlp.version.__version__, '2026.08.19')

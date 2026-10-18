@@ -15,6 +15,12 @@ import java.util.concurrent.TimeUnit
 @RunWith(AndroidJUnit4::class)
 class RuntimeTest {
     private val context get() = InstrumentationRegistry.getInstrumentation().targetContext
+    @Test fun mainActivityLaunchesWithComposeAndWorkManager() {
+        androidx.test.core.app.ActivityScenario.launch(MainActivity::class.java).use { scenario ->
+            InstrumentationRegistry.getInstrumentation().waitForIdleSync()
+            scenario.onActivity { activity -> assertTrue(activity.window.decorView.isShown) }
+        }
+    }
     @Test fun pythonSslExtractorsAndQuickJsLoadOnAndroid() {
         val result = Python.getInstance().getModule("engine").callAttr("self_test", Engine.qjs(context), Engine.cache(context)).toString()
         assertTrue(result.startsWith("2026."))

@@ -66,7 +66,11 @@ jobs:
           target: google_apis
           disable-animations: true
           working-directory: video-downloader
-          script: gradle --no-daemon :app:connectedDebugAndroidTest --stacktrace
+          script: |
+            gradle --no-daemon :app:connectedDebugAndroidTest --stacktrace
+            adb shell am start -W -n com.tang.video.downloader/com.tang.video.MainActivity
+            adb shell screencap -p /sdcard/video-downloader-home.png
+            adb pull /sdcard/video-downloader-home.png app/build/reports/home.png
       - name: Upload tests and reproducible native sources
         if: always()
         uses: actions/upload-artifact@v4
